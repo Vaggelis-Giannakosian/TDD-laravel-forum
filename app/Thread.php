@@ -13,4 +13,9 @@ class Thread extends Model
     {
         return $this->hasMany(Reply::class);
     }
+
+    public function path()
+    {
+        return route('threads.show',$this);
+    }
 }
