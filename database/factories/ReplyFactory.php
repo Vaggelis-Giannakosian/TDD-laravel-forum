@@ -7,7 +7,7 @@ use App\User;
 use App\Thread;
 use Faker\Generator as Faker;
 
-$factory->define(Reply::class, function (Faker $faker) {
+$factory->define(\App\Reply::class, function (Faker $faker) {
     return [
         'thread_id'=> factory(Thread::class)->create(),
         'user_id'=> factory(User::class)->create(),
