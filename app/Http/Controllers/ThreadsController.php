@@ -14,9 +14,15 @@ class ThreadsController extends Controller
         $this->middleware('auth')->except(['index','show']);
     }
 
-    public function index()
+    public function index(?Channel $channel = null)
     {
-        $threads = Thread::latest()->get();
+        if($channel)
+        {
+            $threads = $channel->threads()->latest()->get();
+        }else{
+            $threads = Thread::latest()->get();
+        }
+
         return view('threads.index',compact('threads'));
     }
 
@@ -58,6 +64,7 @@ class ThreadsController extends Controller
      */
     public function show(Channel $channel, Thread $thread)
     {
+
         return view('threads.show',compact('thread'));
     }
 
