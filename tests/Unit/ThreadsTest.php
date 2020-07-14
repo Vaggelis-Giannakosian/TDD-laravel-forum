@@ -18,7 +18,7 @@ class ThreadsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->thread = factory(Thread::class)->create();
+        $this->thread = create(Thread::class);
     }
 
     public function test_a_thread_has_replies()

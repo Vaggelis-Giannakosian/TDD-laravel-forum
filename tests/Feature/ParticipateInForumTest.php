@@ -18,16 +18,16 @@ class ParticipateInForumTest extends TestCase
 
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $thread = factory(Thread::class)->create();
+        $thread = create(Thread::class);
         $this->post("/threads/{$thread->id}/replies",[]);
     }
 
     public function test_an_auth_user_may_participate_in_forum_threads()
     {
 
-        $this->signIn($user = factory(User::class)->create());
-        $thread = factory(Thread::class)->create();
-        $reply = factory(Reply::class)->make();
+        $this->signIn($user = create(User::class));
+        $thread = create(Thread::class);
+        $reply = make(Reply::class);
 
         $this->get($thread->path())->assertDontSee($reply->body);
 
