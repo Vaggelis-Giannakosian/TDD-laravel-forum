@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 
+use App\Channel;
 use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,12 @@ class ThreadsTest extends TestCase
     {
         parent::setUp();
         $this->thread = create(Thread::class);
+    }
+
+    public function test_a_thread_has_valid_string_path()
+    {
+        $thread = make(Thread::class);
+        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}",$thread->path());
     }
 
     public function test_a_thread_has_replies()
@@ -39,6 +46,11 @@ class ThreadsTest extends TestCase
         ]);
 
         $this->assertCount(1,$this->thread->replies);
+    }
+
+    function test_a_thread_belongs_to_a_channel()
+    {
+        $this->assertInstanceOf(Channel::class,$this->thread->channel);
     }
 
 }

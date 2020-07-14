@@ -15,11 +15,8 @@ class ParticipateInForumTest extends TestCase
 
     public function test_an_unauthenticated_user_may_not_participate_in_forum_threads()
     {
-
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
         $thread = create(Thread::class);
-        $this->withoutExceptionHandling()->post("/threads/{$thread->id}/replies",[]);
+        $this->post($thread->path()."/replies",[])->assertRedirect(route('login'));
     }
 
     public function test_an_auth_user_may_participate_in_forum_threads()
@@ -31,7 +28,7 @@ class ParticipateInForumTest extends TestCase
 
         $this->get($thread->path())->assertDontSee($reply->body);
 
-        $postRequest = $this->post("/threads/{$thread->id}/replies",$reply->toArray());
+        $postRequest = $this->post($thread->path()."/replies",$reply->toArray());
         $postRequest->assertStatus(302);
 
         $this->get($thread->path())->assertSee($reply->body);

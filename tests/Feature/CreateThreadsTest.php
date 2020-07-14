@@ -16,16 +16,10 @@ class CreateThreadsTest extends TestCase
     public function test_guests_may_not_create_new_forum_threads()
     {
 
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $thread = make(Thread::class);
-
-        $postRequest = $this->withoutExceptionHandling()->post('/threads',$thread->toArray());
-    }
-
-    public function test_guest_cannot_see_create_thread_page()
-    {
         $this->get(route('threads.create'))
+            ->assertRedirect(route('login'));
+
+        $this->post(route('threads.store'))
             ->assertRedirect(route('login'));
     }
 
@@ -35,13 +29,14 @@ class CreateThreadsTest extends TestCase
 
         //given a signed in user
         $this->signIn($user = create(User::class));
-        $thread = make(Thread::class);
+        $thread = create(Thread::class);
+
 
         //when we hit the endpoint to create a new thread
         $postRequest = $this->post('/threads',$thread->toArray());
 
         //Then we visit the thread page and We should see the new thread
-        $this->get(route('threads.show',1))
+        $this->get(route('threads.show',[$thread->channel,$thread]))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }
