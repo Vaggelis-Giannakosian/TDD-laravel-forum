@@ -19,7 +19,7 @@ class ParticipateInForumTest extends TestCase
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
         $thread = create(Thread::class);
-        $this->post("/threads/{$thread->id}/replies",[]);
+        $this->withoutExceptionHandling()->post("/threads/{$thread->id}/replies",[]);
     }
 
     public function test_an_auth_user_may_participate_in_forum_threads()
