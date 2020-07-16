@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Elasticquent\ElasticquentTrait;
 
 class Thread extends Model
 {
+
+    use ElasticquentTrait;
+
     protected $fillable = ['title','body','user_id','channel_id'];
 
 
