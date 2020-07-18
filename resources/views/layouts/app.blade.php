@@ -36,11 +36,24 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('threads.index') }}">All Threads</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('threads.create') }}">New Thread</a>
                     </li>
+
+                    <li>
+                        <div class="dropdown">
+                            <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Browse
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="nav-link" href="{{ route('threads.index') }}">All Threads</a>
+                                @auth
+                                     <a class="nav-link" href="{{ route('threads.index',['by'=>auth()->user()->name]) }}">My Threads</a>
+                                @endauth
+                            </div>
+                        </div>
+                    </li>
+
                     <li>
                         <div class="dropdown">
                             <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -54,6 +67,8 @@
                             </div>
                         </div>
                     </li>
+
+
                 </ul>
 
                 <!-- Right Side Of Navbar -->
