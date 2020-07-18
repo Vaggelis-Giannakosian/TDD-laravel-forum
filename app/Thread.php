@@ -8,7 +8,7 @@ use Elasticquent\ElasticquentTrait;
 class Thread extends Model
 {
 
-    use ElasticquentTrait;
+//    use ElasticquentTrait;
 
     protected $fillable = ['title','body','user_id','channel_id'];
 
