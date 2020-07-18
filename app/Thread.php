@@ -13,6 +13,8 @@ class Thread extends Model
 //    use ElasticquentTrait;
 
     protected $fillable = ['title','body','user_id','channel_id'];
+//    protected $with = ['creator'];
+    protected $with = ['channel'];
 
     protected static function boot()
     {
@@ -20,11 +22,16 @@ class Thread extends Model
         static::addGlobalScope('replyCount',function (Builder $builder){
             $builder->withCount('replies');
         });
+
+        static::addGlobalScope('creator',function (Builder $builder){
+            $builder->with('creator');
+        });
     }
 
     public function replies()
     {
-        return $this->hasMany(Reply::class)->orderBy('created_at','desc');
+        return $this->hasMany(Reply::class)
+            ->orderBy('created_at','desc');
     }
 
 //    public function getReplyCountAttribute()
