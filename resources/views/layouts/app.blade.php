@@ -38,6 +38,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('threads.index') }}">All Threads</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('threads.create') }}">New Thread</a>
+                    </li>
                     <li>
                         <div class="dropdown">
                             <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton"
