@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
 
@@ -13,11 +14,23 @@ class Thread extends Model
 
     protected $fillable = ['title','body','user_id','channel_id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('replyCount',function (Builder $builder){
+            $builder->withCount('replies');
+        });
+    }
 
     public function replies()
     {
         return $this->hasMany(Reply::class)->orderBy('created_at','desc');
     }
+
+//    public function getReplyCountAttribute()
+//    {
+//        return $this->replies()->count();
+//    }
 
 
     public function creator()
@@ -40,7 +53,7 @@ class Thread extends Model
         $this->replies()->create($reply);
     }
 
-    public function scopeFilter($query, ThreadFilters $filters)
+    public function scopeFilter(Builder $query, ThreadFilters $filters)
     {
         return $filters->apply($query);
     }
