@@ -14,6 +14,8 @@ class FavoritesTest extends TestCase
 
     public function test_guests_cannot_favorite_a_reply()
     {
+        $this->withExceptionHandling();
+
         $reply = create(Reply::class);
         $this->post(route('reply.favorite',$reply))->assertRedirect(route('login'));
     }

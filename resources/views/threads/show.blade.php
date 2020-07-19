@@ -8,7 +8,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <a href="#">
+                        <a href="{{  $thread->creator->path() }}">
                             {{ $thread->creator->name }}
                         </a>
                         posted

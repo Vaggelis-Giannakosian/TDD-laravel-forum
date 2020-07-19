@@ -16,6 +16,7 @@ class CreateThreadsTest extends TestCase
 
     public function test_guests_may_not_create_new_forum_threads()
     {
+        $this->withExceptionHandling();
 
         $this->get(route('threads.create'))
             ->assertRedirect(route('login'));
@@ -65,6 +66,7 @@ class CreateThreadsTest extends TestCase
     protected function publishThread(array $ovverides = [])
     {
         $this->signIn();
+        $this->withExceptionHandling();
         $thread = make(Thread::class,$ovverides);
         return $this->post('/threads',$thread->toArray());
     }

@@ -15,6 +15,8 @@ class ParticipateInForumTest extends TestCase
 
     public function test_an_unauthenticated_user_may_not_participate_in_forum_threads()
     {
+        $this->withExceptionHandling();
+
         $thread = create(Thread::class);
         $this->post($thread->path()."/replies",[])->assertRedirect(route('login'));
     }
@@ -36,6 +38,8 @@ class ParticipateInForumTest extends TestCase
 
     public function test_a_reply_requires_a_body()
     {
+        $this->withExceptionHandling();
+
         $this->signIn();
         $thread = create(Thread::class);
         $reply = make(Reply::class,['body'=>null]);

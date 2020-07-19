@@ -3,7 +3,7 @@
     <div class="card-header">
         <div class="level">
             <h6 class="flex">
-                <a href="#">
+                <a href="{{ $reply->owner->path() }}">
                     {{ $reply->owner->name }}
                 </a>
                 said {{ $reply->created_at->diffForHumans() }}...
