@@ -9,11 +9,11 @@ use Elasticquent\ElasticquentTrait;
 
 class Thread extends Model
 {
-
-//    use ElasticquentTrait;
+    use RecordsActivity;
+    //    use ElasticquentTrait;
 
     protected $fillable = ['title','body','user_id','channel_id'];
-//    protected $with = ['creator'];
+    //    protected $with = ['creator'];
     protected $with = ['channel'];
 
     protected static function boot()
@@ -30,7 +30,9 @@ class Thread extends Model
         static::deleting(function($thread){
             $thread->replies()->delete();
         });
+
     }
+
 
     public function replies()
     {
@@ -68,4 +70,7 @@ class Thread extends Model
     {
         return $filters->apply($query);
     }
+
+
+
 }
