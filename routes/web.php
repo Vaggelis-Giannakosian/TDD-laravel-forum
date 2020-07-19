@@ -33,6 +33,7 @@ Route::get('/threads/create','ThreadsController@create')->name('threads.create')
 
 Route::get('/threads/{channel:slug}','ThreadsController@index')->name('threads.channel');
 Route::get('/threads/{channel:slug}/{thread}','ThreadsController@show')->name('threads.show');
+Route::delete('/threads/{channel:slug}/{thread}','ThreadsController@destroy')->name('threads.destroy');
 
 //Route::resource('threads','ThreadsController');
 
