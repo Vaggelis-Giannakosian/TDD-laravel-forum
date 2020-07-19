@@ -18,7 +18,7 @@
                             <div class="level">
                         <span class="flex">
                             <a href="{{ $thread->creator->path() }}">{{ $thread->creator->name }}</a> posted:
-                            {{ $thread->title }}
+                            <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
                         </span>
 
                                 <span>
