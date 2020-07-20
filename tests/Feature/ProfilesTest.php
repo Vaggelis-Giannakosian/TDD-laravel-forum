@@ -23,14 +23,13 @@ class ProfilesTest extends TestCase
 
     public function test_a_user_profile_has_his_threads()
     {
-        $user = create(User::class);
-        $userThread = create(Thread::class,['user_id'=>$user->id]);
-        $foreignThread = create(Thread::class);
+        $this->signIn();
+        $userThread = create(Thread::class,['user_id'=>auth()->id()]);
 
-        $this->get(route('user.profile',$user))
+
+        $this->get(route('user.profile',auth()->user()))
             ->assertSee($userThread->title)
-            ->assertSee($userThread->body)
-            ->assertDontSee($foreignThread->title);
+            ->assertSee($userThread->body);
     }
 
 }

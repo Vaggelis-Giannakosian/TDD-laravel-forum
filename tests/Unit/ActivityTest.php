@@ -4,10 +4,10 @@ namespace Tests\Unit;
 
 
 use App\Activity;
-use App\Channel;
 use App\Reply;
 use App\Thread;
-use App\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -49,6 +49,33 @@ class ActivityTest extends TestCase
 
         $this->assertCount(2,Activity::all());
         $this->assertEquals($activity->subject->id,$reply->id);
+    }
+
+    public function test_it_fetches_an_activity_feed_for_any_user()
+    {
+        $this->signIn();
+
+        //Given an thread
+        create(Thread::class,['user_id'=>auth()->id()],2);
+
+        auth()->user()->activity()->first()->update([
+            'created_at' => now()->subWeek()
+        ]);
+
+
+        //When we fetch the feed
+        $feed = Activity::feed(auth()->user());
+
+
+        //Then, it sould be returned in the proper format
+        $this->assertInstanceOf(Collection::class,$feed);
+        $this->assertTrue($feed->keys()->contains(
+            now()->format('Y-m-d')
+        ));
+
+        $this->assertTrue($feed->keys()->contains(
+            now()->subWeek()->format('Y-m-d')
+        ));
     }
 
 

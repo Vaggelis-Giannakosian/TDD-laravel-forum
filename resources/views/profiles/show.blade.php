@@ -12,29 +12,19 @@
                     </h1>
                 </div>
 
-                @foreach($threads as $thread)
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <div class="level">
-                        <span class="flex">
-                            <a href="{{ $thread->creator->path() }}">{{ $thread->creator->name }}</a> posted:
-                            <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
-                        </span>
+                @foreach($activities as $date => $activity)
 
-                                <span>
-                            {{$thread->created_at->diffForHumans()}}
-                        </span>
-                            </div>
+                    <h3 class="card-header">
+                        {{ $date }}
+                    </h3>
 
-                        </div>
-                        <div class="card-body">
-                            {{ $thread->body }}
-                        </div>
-                    </div>
+                    @foreach($activity as $record)
+                         @include("profiles.activities.{$record->type}")
+                    @endforeach
                 @endforeach
 
                 <div class="d-flex justify-content-center mt-4">
-                    {{ $threads->links() }}
+{{--                    {{ $activities->links() }}--}}
                 </div>
             </div>
         </div>
