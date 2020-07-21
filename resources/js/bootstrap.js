@@ -1,5 +1,5 @@
 window._ = require('lodash');
-
+window.Vue = require('vue');
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -28,6 +28,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+
+window.events = new Vue();
+window.flash = function(message){
+    window.events.$emit('flash',message);
+}
 
 // import Echo from 'laravel-echo';
 
