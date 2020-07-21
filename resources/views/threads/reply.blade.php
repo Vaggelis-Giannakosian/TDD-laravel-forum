@@ -46,13 +46,7 @@
         @can('delete',$reply)
             <div class="card-footer level">
                 <button @click="editing=true" class="btn btn-secondary btn-sm mr-2">Edit</button>
-                <form method="POST" action="{{ route('replies.destroy',$reply) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">
-                        Delete
-                    </button>
-                </form>
+                <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
             </div>
         @endcan
     </div>
