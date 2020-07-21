@@ -19,12 +19,15 @@
                     </h3>
 
                     @foreach($activity as $record)
-                         @include("profiles.activities.{$record->type}")
+                        @if(view()->exists("profiles.activities.{$record->type}"))
+                            @include("profiles.activities.{$record->type}")
+                        @endif
                     @endforeach
+
                 @endforeach
 
                 <div class="d-flex justify-content-center mt-4">
-{{--                    {{ $activities->links() }}--}}
+                    {{--                    {{ $activities->links() }}--}}
                 </div>
             </div>
         </div>
