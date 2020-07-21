@@ -38,6 +38,8 @@ Route::delete('/threads/{channel:slug}/{thread}','ThreadsController@destroy')->n
 //Route::resource('threads','ThreadsController');
 
 Route::post('/threads/{channel:slug}/{thread}/replies','RepliesController@store')->name('replies.store');
+
+Route::delete('/replies/{reply}','RepliesController@destroy')->name('replies.destroy');
 Route::post('/replies/{reply}/favorites','FavoritesController@store')->name('reply.favorite');
 
 Route::get('/profiles/{user:name}','ProfilesController@show')->name('user.profile');
