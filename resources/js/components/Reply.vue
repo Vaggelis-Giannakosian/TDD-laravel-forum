@@ -1,20 +1,22 @@
 <template>
-        <div :id="'reply-'+id" class="card">
+        <div :id="'reply-'+id" class="card mb-4">
             <div class="card-header">
                 <div class="level">
                     <h6 class="flex">
-                        <a href="{{ $reply->owner->path() }}">
-                            {{ $reply->owner->name }}
+                        <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name">
                         </a>
-                        said {{ $reply->created_at->diffForHumans() }}...
+                        said {{ data.created_at }}...
                     </h6>
 
 
-                    @auth
-                    <div>
-                        <favorite :reply="{{ $reply }}"></favorite>
+<!--                    @auth-->
+                    <div v-if="signedIn">
+                        <div>
+                            <favorite :reply="data"></favorite>
+                        </div>
                     </div>
-                    @endauth
+
+<!--                    @endauth-->
                 </div>
             </div>
 
@@ -33,21 +35,17 @@
 
                 </div>
 
-                <div v-else v-text="body">
-                    {{ $reply->body }}
-                </div>
+                <div v-else v-text="body"></div>
 
             </div>
 
-            @can('delete',$reply)
-            <div class="card-footer level">
+
+            <div class="card-footer level" v-if="canUpdate">
                 <button @click="editing=true" class="btn btn-secondary btn-sm mr-2">Edit</button>
                 <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
             </div>
-            @endcan
-        </div>
-    <br>
 
+        </div>
 </template>
 <script>
 
@@ -63,6 +61,14 @@
                 id: this.data.id
             }
         },
+        computed:{
+            signedIn(){
+                return window.App.signedIn
+            },
+            canUpdate(){
+                return this.authorize( user => this.data.user_id === user.id)
+            }
+        },
         methods:{
             update(){
                 axios.patch('/replies/'+this.data.id,{
@@ -75,9 +81,13 @@
             destroy()
             {
                 axios.delete('/replies/'+this.data.id);
-                $(this.$el).fadeOut(300,()=>{
-                    flash('Your reply has benn deleted!')
-                })
+
+                this.$emit('deleted',this.data.id);
+
+
+                // $(this.$el).fadeOut(300,()=>{
+                //     flash('Your reply has benn deleted!')
+                // })
             }
         }
     }

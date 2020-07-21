@@ -2030,6 +2030,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     Reply: _Reply__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    remove: function remove(index) {
+      this.items.splice(index, 1);
+      this.$emit('removed');
+      flash('Your reply has benn deleted!');
+    }
   }
 });
 
@@ -2094,8 +2101,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -2109,6 +2114,18 @@ __webpack_require__.r(__webpack_exports__);
       id: this.data.id
     };
   },
+  computed: {
+    signedIn: function signedIn() {
+      return window.App.signedIn;
+    },
+    canUpdate: function canUpdate() {
+      var _this = this;
+
+      return this.authorize(function (user) {
+        return _this.data.user_id === user.id;
+      });
+    }
+  },
   methods: {
     update: function update() {
       axios.patch('/replies/' + this.data.id, {
@@ -2119,9 +2136,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     destroy: function destroy() {
       axios["delete"]('/replies/' + this.data.id);
-      $(this.$el).fadeOut(300, function () {
-        flash('Your reply has benn deleted!');
-      });
+      this.$emit('deleted', this.data.id); // $(this.$el).fadeOut(300,()=>{
+      //     flash('Your reply has benn deleted!')
+      // })
     }
   }
 });
@@ -2145,6 +2162,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Thread",
+  props: ['initialRepliesCount'],
+  data: function data() {
+    return {
+      repliesCount: this.initialRepliesCount
+    };
+  },
   components: {
     Replies: _Replies__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -38461,8 +38484,21 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.items, function(reply) {
-      return _c("div", [_c("reply", { attrs: { data: reply } })], 1)
+    _vm._l(_vm.items, function(reply, index) {
+      return _c(
+        "div",
+        [
+          _c("reply", {
+            attrs: { data: reply },
+            on: {
+              deleted: function($event) {
+                return _vm.remove(index)
+              }
+            }
+          })
+        ],
+        1
+      )
     }),
     0
   )
@@ -38485,8 +38521,119 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function () {}
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "card mb-4", attrs: { id: "reply-" + _vm.id } },
+    [
+      _c("div", { staticClass: "card-header" }, [
+        _c("div", { staticClass: "level" }, [
+          _c("h6", { staticClass: "flex" }, [
+            _c("a", {
+              attrs: { href: "/profiles/" + _vm.data.owner.name },
+              domProps: { textContent: _vm._s(_vm.data.owner.name) }
+            }),
+            _vm._v(
+              "\n                        said " +
+                _vm._s(_vm.data.created_at) +
+                "...\n                    "
+            )
+          ]),
+          _vm._v(" "),
+          _vm.signedIn
+            ? _c("div", [
+                _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+              ])
+            : _vm._e()
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm.editing
+          ? _c("div", [
+              _c("div", { staticClass: "form-group" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.body,
+                      expression: "body"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  domProps: { value: _vm.body },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.body = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "float-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary btn-sm",
+                    on: {
+                      click: function($event) {
+                        _vm.editing = false
+                      }
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm",
+                    on: { click: _vm.update }
+                  },
+                  [_vm._v("Update")]
+                )
+              ])
+            ])
+          : _c("div", { domProps: { textContent: _vm._s(_vm.body) } })
+      ]),
+      _vm._v(" "),
+      _vm.canUpdate
+        ? _c("div", { staticClass: "card-footer level" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary btn-sm mr-2",
+                on: {
+                  click: function($event) {
+                    _vm.editing = true
+                  }
+                }
+              },
+              [_vm._v("Edit")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger btn-sm",
+                on: { click: _vm.destroy }
+              },
+              [_vm._v("Delete")]
+            )
+          ])
+        : _vm._e()
+    ]
+  )
+}
 var staticRenderFns = []
+render._withStripped = true
 
 
 
@@ -50725,11 +50872,17 @@ var app = new Vue({
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+window.Vue.prototype.authorize = function (handler) {
+  var user = window.App.user;
+  return user ? handler(user) : false;
+};
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
+
 
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
@@ -51148,8 +51301,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\egian\Desktop\laravel-apps\tddforum\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\egian\Desktop\laravel-apps\tddforum\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Lostre\Desktop\laravel-apps\tddforum\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Lostre\Desktop\laravel-apps\tddforum\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

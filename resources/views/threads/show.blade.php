@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <thread-view inline-template>
+    <thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
@@ -38,12 +38,7 @@
 
                     <br>
 
-                    <replies :data="{{ $thread->replies }}"></replies>
-                    {{--                @foreach($replies as $reply)--}}
-                    {{--                    @include('threads.reply')--}}
-                    {{--                @endforeach--}}
-
-                    {{--                {{ $replies->links() }}--}}
+                    <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
 
                     @auth
                         <form method="POST" action="{{ route('replies.store',[$thread->channel,$thread] ) }}">
@@ -71,7 +66,7 @@
                         <div class="card-body">
                             This thread was published {{ $thread->created_at->diffForHumans() }} by
                             <a href="">{{ $thread->creator->name }}</a>, and currently
-                            has {{ $thread->replies_count }} {{ \Str::plural('comment',$thread->replies_count) }}.
+                            has <span v-text="repliesCount"></span> {{ \Str::plural('comment',$thread->replies_count) }}.
                         </div>
                     </div>
                 </div>
