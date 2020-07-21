@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Activity;
 use App\Channel;
 use App\Reply;
 use App\Thread;
@@ -88,6 +89,15 @@ class CreateThreadsTest extends TestCase
         $response->assertStatus(204);
         $this->assertDatabaseMissing('threads',$thread->only(['title','id','body','user_id']));
         $this->assertDatabaseMissing('replies',$reply->only(['id','body']));
+        $this->assertDatabaseMissing('activities',[
+            'subject_id'=>$thread->id,
+            'subject_type'=>Thread::class
+        ]);
+        $this->assertDatabaseMissing('activities',[
+            'subject_id'=>$reply->id,
+            'subject_type'=>Reply::class
+        ]);
+        $this->assertEquals(0,Activity::count());
     }
 
     protected function publishThread(array $ovverides = [])

@@ -15,6 +15,8 @@ trait RecordsActivity
         {
             static::$event(fn($model)=>$model->recordActivity($event,$model));
         }
+
+        static::deleted(fn($model)=>$model->activity()->delete());
     }
 
     protected static function getActivitesToRecord()

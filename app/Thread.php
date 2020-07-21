@@ -10,7 +10,8 @@ use Elasticquent\ElasticquentTrait;
 class Thread extends Model
 {
     use RecordsActivity;
-    //    use ElasticquentTrait;
+//    use ElasticquentTrait;
+
 
     protected $fillable = ['title','body','user_id','channel_id'];
     //    protected $with = ['creator'];
@@ -28,7 +29,7 @@ class Thread extends Model
         });
 
         static::deleting(function($thread){
-            $thread->replies()->delete();
+            $thread->replies->each->delete();
         });
 
     }
