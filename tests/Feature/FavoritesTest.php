@@ -32,6 +32,18 @@ class FavoritesTest extends TestCase
         $this->assertDatabaseHas('favorites',['favorable_id'=>$reply->id,'favorable_type'=>Reply::class]);
     }
 
+    public function test_an_auth_user_can_unfavorite_any_reply()
+    {
+        $this->signIn();
+        $reply = create(Reply::class);
+
+        $reply->favorite();
+        $this->delete(route('reply.favorite.destroy',$reply));
+
+        $this->assertCount(0,$reply->favorites);
+        $this->assertDatabaseMissing('favorites',['favorable_id'=>$reply->id,'favorable_type'=>Reply::class]);
+    }
+
     public function test_an_auth_may_only_favorite_a_reply_once()
     {
         $this->signIn();
