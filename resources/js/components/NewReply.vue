@@ -27,16 +27,18 @@
 
 <script>
     export default {
-        props:['endpoint'],
         data() {
             return {
-                body: ''
+                body: '',
             }
         },
         computed: {
             signedIn(){
                 return window.App.signedIn
-            }
+            },
+            endpoint(){
+                return `${location.pathname}/replies'`
+            },
         },
         methods: {
             addReply() {

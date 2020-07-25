@@ -33,7 +33,9 @@ class ParticipateInForumTest extends TestCase
         $postRequest = $this->post($thread->path() . "/replies", $reply->toArray());
         $postRequest->assertStatus(302);
 
-        $this->get($thread->path())->assertSee($reply->body);
+        $this->assertDatabaseHas('replies',[
+            'body'=>$reply->body
+        ]);
     }
 
     public function test_a_reply_requires_a_body()

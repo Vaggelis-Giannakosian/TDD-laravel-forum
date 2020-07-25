@@ -36,11 +36,15 @@ Route::get('/threads/{channel:slug}/{thread}','ThreadsController@show')->name('t
 Route::delete('/threads/{channel:slug}/{thread}','ThreadsController@destroy')->name('threads.destroy');
 
 //Route::resource('threads','ThreadsController');
-
+Route::get('/threads/{channel:slug}/{thread}/replies','RepliesController@index');
 Route::post('/threads/{channel:slug}/{thread}/replies','RepliesController@store')->name('replies.store');
 
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('replies.destroy');
 Route::patch('/replies/{reply}','RepliesController@update')->name('replies.update');
+
+
+
+
 Route::post('/replies/{reply}/favorites','FavoritesController@store')->name('reply.favorite');
 Route::delete('/replies/{reply}/favorites','FavoritesController@destroy')->name('reply.favorite.destroy');
 
