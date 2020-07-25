@@ -17,7 +17,6 @@ class RepliesController extends Controller
     /**
      * @param Channel $channel
      * @param Thread $thread
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Channel $channel, Thread $thread)
     {
@@ -27,10 +26,16 @@ class RepliesController extends Controller
         ]);
 
 
-        $thread->addReply([
+        $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
         ]);
+
+        if(request()->expectsJson())
+        {
+            return $reply->load('owner');
+        }
+
 
         return back()
             ->withFlash('Your reply has been left');
