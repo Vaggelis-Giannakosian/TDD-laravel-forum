@@ -20,9 +20,6 @@ class Thread extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('replyCount',function (Builder $builder){
-            $builder->withCount('replies');
-        });
 
         static::addGlobalScope('creator',function (Builder $builder){
             $builder->with('creator');
@@ -64,7 +61,10 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-      return $this->replies()->create($reply);
+        return  $this->replies()->create($reply);
+//      $reply = $this->replies()->create($reply);
+//      $this->increment('replies_count');
+//      return $reply;
     }
 
     public function scopeFilter(Builder $query, ThreadFilters $filters)

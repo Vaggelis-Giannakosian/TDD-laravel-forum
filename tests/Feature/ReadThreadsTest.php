@@ -6,6 +6,7 @@ use App\Channel;
 use App\Reply;
 use App\Thread;
 use App\User;
+use http\Env\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -73,6 +74,19 @@ class ReadThreadsTest extends TestCase
 
         $this->assertEquals([3,2,0],array_column($response,'replies_count'));
 
+    }
+
+    function test_a_user_can_filter_unanswered_threads()
+    {
+        $thread = create(Thread::class);
+        create(Reply::class,['thread_id'=>$thread->id]);
+
+        $response = $this->getJson('/threads?unanswered=1')
+            ->assertSee($this->thread->title)
+            ->assertDontSee($thread->title)
+            ->json();
+
+        $this->assertCount(1,$response);
     }
 
     function test_a_user_can_request_all_replies_for_a_given_thread()

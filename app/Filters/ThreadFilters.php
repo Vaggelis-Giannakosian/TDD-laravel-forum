@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ThreadFilters extends Filters
 {
 
-    protected $filters = ['by','popular'];
+    protected $filters = ['by','popular','unanswered'];
 
 
     /**
@@ -35,5 +35,9 @@ class ThreadFilters extends Filters
         return $this->builder->orderBy('replies_count','desc');
     }
 
+    protected function unanswered($order) : Builder
+    {
+        return $this->builder->groupBy('id')->having('replies_count',0);
+    }
 
 }

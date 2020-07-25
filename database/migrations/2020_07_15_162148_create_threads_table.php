@@ -19,6 +19,8 @@ class CreateThreadsTable extends Migration
             $table->text('body');
             $table->foreignId('channel_id')->constrained();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('replies_count')->default(0);
+
             $table->timestamps();
         });
     }

@@ -29,7 +29,8 @@
                                 <a class="nav-link" href="{{ route('threads.index',['by'=>auth()->user()->name]) }}">My Threads</a>
                             @endauth
 
-                            <a class="nav-link" href="{{ route('threads.index',['popular'=>1]) }}">Popular All Time</a>
+                            <a class="nav-link" href="{{ route('threads.index',['popular'=>1]) }}">Popular Threads</a>
+                            <a class="nav-link" href="{{ route('threads.index',['unanswered'=>1]) }}">Unanswered Threads</a>
                         </div>
                     </div>
                 </li>
