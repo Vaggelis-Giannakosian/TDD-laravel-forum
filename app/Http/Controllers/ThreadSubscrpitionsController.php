@@ -25,4 +25,16 @@ class ThreadSubscrpitionsController extends Controller
 
         return back();
     }
+
+    public function destroy($channelId, Thread $thread)
+    {
+        $thread->unsubscribe();
+
+        if(request()->expectsJson())
+        {
+            return response(['status'=>'Subscription deleted']);
+        }
+
+        return back();
+    }
 }

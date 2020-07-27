@@ -4,6 +4,8 @@
 
 <script>
     import Replies from "../Replies";
+    import SubscribeButton from "../SubscribeButton";
+
     export default {
         name: "Thread",
         props: ['initialRepliesCount'],
@@ -12,7 +14,7 @@
                 repliesCount: this.initialRepliesCount
             }
         },
-        components: {Replies},
+        components: {Replies,SubscribeButton},
     }
 </script>
 

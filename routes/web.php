@@ -37,15 +37,16 @@ Route::delete('/threads/{channel:slug}/{thread}','ThreadsController@destroy')->n
 
 //Route::resource('threads','ThreadsController');
 
-Route::post('/threads/{channel:slug}/{thread}/subscriptions','ThreadSubscrpitionsController@store')->name('subscriptions.store');
-
 
 Route::get('/threads/{channel:slug}/{thread}/replies','RepliesController@index');
 Route::post('/threads/{channel:slug}/{thread}/replies','RepliesController@store')->name('replies.store');
 
+
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('replies.destroy');
 Route::patch('/replies/{reply}','RepliesController@update')->name('replies.update');
 
+Route::post('/threads/{channel:slug}/{thread}/subscriptions','ThreadSubscrpitionsController@store')->name('subscriptions.store');
+Route::delete('/threads/{channel:slug}/{thread}/subscriptions','ThreadSubscrpitionsController@destroy')->name('subscriptions.delete');
 
 
 
