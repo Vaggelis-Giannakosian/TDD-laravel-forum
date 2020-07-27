@@ -10,10 +10,11 @@ use Elasticquent\ElasticquentTrait;
 class Thread extends Model
 {
     use RecordsActivity;
+
 //    use ElasticquentTrait;
 
 
-    protected $fillable = ['title','body','user_id','channel_id'];
+    protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
     //    protected $with = ['creator'];
     protected $with = ['channel'];
 
@@ -21,11 +22,11 @@ class Thread extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('creator',function (Builder $builder){
+        static::addGlobalScope('creator', function (Builder $builder) {
             $builder->with('creator');
         });
 
-        static::deleting(function($thread){
+        static::deleting(function ($thread) {
             $thread->replies->each->delete();
         });
 
@@ -35,7 +36,7 @@ class Thread extends Model
     public function replies()
     {
         return $this->hasMany(Reply::class)
-            ->orderBy('created_at','desc');
+            ->orderBy('created_at', 'desc');
     }
 
 //    public function getReplyCountAttribute()
@@ -46,7 +47,7 @@ class Thread extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function channel()
@@ -61,7 +62,7 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-        return  $this->replies()->create($reply);
+        return $this->replies()->create($reply);
 //      $reply = $this->replies()->create($reply);
 //      $this->increment('replies_count');
 //      return $reply;
@@ -72,6 +73,25 @@ class Thread extends Model
         return $filters->apply($query);
     }
 
+    public function subscribe($userId = null)
+    {
+        return $this->subscriptions()->create([
+            'user_id'=>$userId ?: auth()->id()
+        ]);
+    }
+
+    public function unsubscribe($userId = null)
+    {
+        return $this->subscriptions()
+            ->where('user_id',$userId ?: auth()->id())
+            ->delete();
+    }
+
+
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
+    }
 
 
 }
