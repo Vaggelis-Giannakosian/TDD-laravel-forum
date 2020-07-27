@@ -37,7 +37,7 @@
                 return window.App.signedIn
             },
             endpoint(){
-                return `${location.pathname}/replies'`
+                return `${location.pathname}/replies`
             },
         },
         methods: {

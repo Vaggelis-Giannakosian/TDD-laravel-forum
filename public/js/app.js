@@ -2061,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
       return window.App.signedIn;
     },
     endpoint: function endpoint() {
-      return "".concat(location.pathname, "/replies'");
+      return "".concat(location.pathname, "/replies");
     }
   },
   methods: {
