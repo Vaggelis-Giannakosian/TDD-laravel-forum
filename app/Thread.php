@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
+use App\Notifications\ThreadWasUpdated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
@@ -10,7 +11,6 @@ use Elasticquent\ElasticquentTrait;
 class Thread extends Model
 {
     use RecordsActivity;
-
 
 
 //    use ElasticquentTrait;
@@ -66,10 +66,14 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-        return $this->replies()->create($reply);
-//      $reply = $this->replies()->create($reply);
-//      $this->increment('replies_count');
-//      return $reply;
+        $reply = $this->replies()->create($reply);
+
+        $this->subscriptions
+            ->filter(fn($subscription) => $subscription->user_id != $reply->user_id)
+            ->each
+            ->notify($reply);
+
+        return $reply;
     }
 
     public function scopeFilter(Builder $query, ThreadFilters $filters)
@@ -79,15 +83,17 @@ class Thread extends Model
 
     public function subscribe($userId = null)
     {
-        return $this->subscriptions()->create([
-            'user_id'=>$userId ?: auth()->id()
+        $this->subscriptions()->create([
+            'user_id' => $userId ?: auth()->id()
         ]);
+
+        return $this;
     }
 
     public function unsubscribe($userId = null)
     {
         return $this->subscriptions()
-            ->where('user_id',$userId ?: auth()->id())
+            ->where('user_id', $userId ?: auth()->id())
             ->delete();
     }
 
@@ -100,7 +106,7 @@ class Thread extends Model
     public function getIsSubscribedToAttribute()
     {
         return $this->subscriptions()
-            ->where('user_id',auth()->id())
+            ->where('user_id', auth()->id())
             ->exists();
     }
 
