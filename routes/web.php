@@ -36,6 +36,10 @@ Route::get('/threads/{channel:slug}/{thread}','ThreadsController@show')->name('t
 Route::delete('/threads/{channel:slug}/{thread}','ThreadsController@destroy')->name('threads.destroy');
 
 //Route::resource('threads','ThreadsController');
+
+Route::post('/threads/{channel:slug}/{thread}/subscriptions','ThreadSubscrpitionsController@store')->name('subscriptions.store');
+
+
 Route::get('/threads/{channel:slug}/{thread}/replies','RepliesController@index');
 Route::post('/threads/{channel:slug}/{thread}/replies','RepliesController@store')->name('replies.store');
 
