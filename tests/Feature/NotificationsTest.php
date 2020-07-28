@@ -25,6 +25,7 @@ class NotificationsTest extends TestCase
     public function test_a_notification_is_created_when_a_subscribed_thread_receives_a_new_reply()
     {
 
+        $this->withoutExceptionHandling();
         $this->assertCount(0, auth()->user()->notifications);
 
         $thread = create(Thread::class)->subscribe();
