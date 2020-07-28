@@ -28,7 +28,7 @@ class NotificationsTest extends TestCase
         $this->assertCount(0, auth()->user()->notifications);
 
         $thread = create(Thread::class)->subscribe();
-            
+
         //each time there is a new reply...
         $thread->addReply([
             'user_id' => auth()->id(),

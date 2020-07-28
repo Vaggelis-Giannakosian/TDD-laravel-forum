@@ -2355,6 +2355,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     classes: function classes() {
       return ['btn', this.isActive ? 'btn-primary' : 'btn-outline-secondary'];
+    },
+    signedIn: function signedIn() {
+      return window.App.signedIn;
     }
   },
   methods: {
@@ -61013,9 +61016,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("button", { class: _vm.classes, on: { click: _vm.subscribe } }, [
-    _vm._v("\n    Subscribe\n")
-  ])
+  return _vm.signedIn
+    ? _c("button", { class: _vm.classes, on: { click: _vm.subscribe } }, [
+        _vm._v("\n    Subscribe\n")
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -73923,8 +73928,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Lostre\Desktop\laravel-apps\tddforum\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Lostre\Desktop\laravel-apps\tddforum\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\egian\Desktop\laravel-apps\tddforum\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\egian\Desktop\laravel-apps\tddforum\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

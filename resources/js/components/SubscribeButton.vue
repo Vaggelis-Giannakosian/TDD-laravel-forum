@@ -1,5 +1,5 @@
 <template>
-    <button :class="classes" @click="subscribe" >
+    <button :class="classes" @click="subscribe" v-if="signedIn">
         Subscribe
     </button>
 </template>
@@ -16,6 +16,9 @@
         computed:{
             classes(){
                 return ['btn', this.isActive ? 'btn-primary' : 'btn-outline-secondary']
+            },
+            signedIn(){
+                return window.App.signedIn
             }
         },
         methods:{
