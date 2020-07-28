@@ -41,6 +41,6 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->route('threads.show');
+        return redirect()->route('threads.index');
     }
 }
