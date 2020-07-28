@@ -15,7 +15,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
-        "elasticquent/elasticquent": "dev-master"
+        "elasticquent/elasticquent": "dev-master",
+      "ext-pthreads": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
