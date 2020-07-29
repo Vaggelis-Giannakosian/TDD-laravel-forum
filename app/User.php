@@ -51,4 +51,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class)->latest();
     }
+
+    public function visitedThreadCacheKey(Thread $thread)
+    {
+        return sprintf("users.%s.visits.%s",$this->id,$thread->id);
+    }
+
+    public function read($thread)
+    {
+        cache()->forever(
+            auth()->user()->visitedThreadCacheKey($thread),
+            now()
+        );
+    }
 }

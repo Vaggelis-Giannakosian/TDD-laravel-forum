@@ -10,8 +10,12 @@
                         <div class="card-header">
                             <div class="level">
                                 <h4 class="flex">
-                                    <a href="{{ $thread->path() }}">
-                                        {{ $thread->title }}
+                                    <a href="{{ $thread->path(auth()->user()) }}">
+                                        @if($thread->hasUpdatesFor())
+                                            <strong>{{ $thread->title }}</strong>
+                                        @else
+                                            {{ $thread->title }}
+                                        @endif
                                     </a>
                                 </h4>
                                 <a href="{{ $thread->path() }}">
