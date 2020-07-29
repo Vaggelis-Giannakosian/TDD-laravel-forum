@@ -123,5 +123,18 @@ class ParticipateInForumTest extends TestCase
         ]);
     }
 
+    function test_replies_that_contain_spam_may_not_be_create()
+    {
+        $this->signIn($user = create(User::class));
+        $thread = create(Thread::class);
+        $reply = make(Reply::class,[
+            'body' => 'Yahoo Customer Support'
+        ]);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path() . "/replies", $reply->toArray());
+    }
+
 
 }

@@ -119,10 +119,6 @@ class Thread extends Model
     public function hasUpdatesFor($user = null)
     {
 
-        if(!auth()->check())
-        {
-            return false;
-        }
         //look in the cache the proper key
         $key = $user->visitedThreadCacheKey($this);
 
