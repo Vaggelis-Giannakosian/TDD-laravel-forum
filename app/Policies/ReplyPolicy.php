@@ -41,7 +41,7 @@ class ReplyPolicy
      */
     public function create(User $user)
     {
-        $lastReply = $user->lastReply;
+        $lastReply = $user->fresh()->lastReply;
 
         if(! $lastReply) return true;
 

@@ -48,7 +48,8 @@ class ParticipateInForumTest extends TestCase
         $thread = create(Thread::class);
         $reply = make(Reply::class, ['body' => null]);
 
-        $this->post($thread->path() . "/replies", $reply->toArray())->assertSessionHasErrors('body');
+        $this->post($thread->path() . "/replies", $reply->toArray())
+            ->assertStatus(422);
     }
 
     public function test_unauthorized_users_cannot_delete_replies()
