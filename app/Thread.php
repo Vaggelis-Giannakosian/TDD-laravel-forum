@@ -120,6 +120,7 @@ class Thread extends Model
     {
 
         //look in the cache the proper key
+        $user = $user ?: auth()->user();
         $key = $user->visitedThreadCacheKey($this);
 
         //compare that carbon instance with the last updated at timestamp

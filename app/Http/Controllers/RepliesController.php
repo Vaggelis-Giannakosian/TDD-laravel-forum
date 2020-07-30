@@ -23,13 +23,10 @@ class RepliesController extends Controller
      * @param Channel $channel
      * @param Thread $thread
      */
-    public function store(Channel $channel, Thread $thread,Spam $spam)
+    public function store(Channel $channel, Thread $thread)
     {
 
-        $this->validate(request(),[
-            'body' => 'required',
-        ]);
-        $spam->detect(request('body'));
+        $this->validateReply();
 
 
         $reply = $thread->addReply([
@@ -43,12 +40,13 @@ class RepliesController extends Controller
         }
 
 
-        return back()
-            ->withFlash('Your reply has been left');
+        return back()->withFlash('Your reply has been left');
     }
 
     public function update(Reply $reply){
         $this->authorize($reply);
+
+        $this->validateReply();
 
         $reply->update(request(['body']));
     }
@@ -68,5 +66,18 @@ class RepliesController extends Controller
 
 
         return back()->withFlash('You reply was deleted');
+    }
+
+    /**
+     * @param Spam $spam
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateReply(): void
+    {
+        $this->validate(request(), [
+            'body' => 'required',
+        ]);
+
+        resolve(Spam::class)->detect(request('body'));
     }
 }
