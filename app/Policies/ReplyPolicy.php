@@ -41,7 +41,11 @@ class ReplyPolicy
      */
     public function create(User $user)
     {
-        //
+        $lastReply = $user->lastReply;
+
+        if(! $lastReply) return true;
+
+        return ! $lastReply->wasJustPublished();
     }
 
     /**

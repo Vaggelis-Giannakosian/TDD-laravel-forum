@@ -64,4 +64,14 @@ class User extends Authenticatable
             now()
         );
     }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class)->latest();
+    }
 }
