@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Reply;
+use App\Rules\SpamFree;
 use App\Thread;
-use App\Inspections\Spam;
 use Illuminate\Http\Request;
 
 class RepliesController extends Controller
@@ -19,28 +19,30 @@ class RepliesController extends Controller
     {
         return $thread->replies()->paginate(5);
     }
+
     /**
      * @param Channel $channel
      * @param Thread $thread
      */
     public function store(Channel $channel, Thread $thread)
     {
-        try{
-        $this->validateReply();
+        try {
+
+            request()->validate( [
+                'body' => ['required',new SpamFree],
+            ]);
 
 
-        $reply = $thread->addReply([
-            'body' => request('body'),
-            'user_id' => auth()->id()
-        ]);
-        }catch (\Exception $e){
-            return response('Sorry your reply could not be saved at this time.',422);
+            $reply = $thread->addReply([
+                'body' => request('body'),
+                'user_id' => auth()->id()
+            ]);
+        } catch (\Exception $e) {
+            return response('Sorry your reply could not be saved at this time.', 422);
         }
 
 
-
-        if(request()->expectsJson())
-        {
+        if (request()->expectsJson()) {
             return $reply->load('owner');
         }
 
@@ -48,14 +50,17 @@ class RepliesController extends Controller
         return back()->withFlash('Your reply has been left');
     }
 
-    public function update(Reply $reply){
+    public function update(Reply $reply)
+    {
         $this->authorize($reply);
 
-        try{
-            $this->validateReply();
+        try {
+            request()->validate( [
+                'body' => ['required',new SpamFree],
+            ]);
             $reply->update(request(['body']));
-        }catch (\Exception $e){
-            return response('Sorry your reply could not be saved at this time.',422);
+        } catch (\Exception $e) {
+            return response('Sorry your reply could not be saved at this time.', 422);
         }
 
     }
@@ -66,8 +71,7 @@ class RepliesController extends Controller
 
         $reply->delete();
 
-        if(request()->expectsJson())
-        {
+        if (request()->expectsJson()) {
             return response([
                 'status' => 'Reply deleted'
             ]);
@@ -77,16 +81,4 @@ class RepliesController extends Controller
         return back()->withFlash('You reply was deleted');
     }
 
-    /**
-     * @param Spam $spam
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function validateReply(): void
-    {
-        $this->validate(request(), [
-            'body' => 'required',
-        ]);
-
-        resolve(Spam::class)->detect(request('body'));
-    }
 }
