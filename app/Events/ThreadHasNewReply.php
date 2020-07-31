@@ -3,6 +3,7 @@
 namespace App\Events;
 
 
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class ThreadHasNewReply
 {
-    use SerializesModels;
+    use Dispatchable, SerializesModels;
 
 
     public $thread;

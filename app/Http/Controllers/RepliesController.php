@@ -29,22 +29,7 @@ class RepliesController extends Controller
      */
     public function store(Channel $channel, Thread $thread, CreatePostRequest $form)
     {
-
         $reply = $form->persist($thread);
-
-        //inspect body of the reply for username mentions
-        preg_match_all('/\@([^\s\.]+)/',$reply->body,$matches);
-        
-        $names = $matches[1];
-        foreach ($names as $name) {
-            $user = User::where('name',$name)->first();
-            if($user)
-            {
-                $user->notify(new YourWereMentioned($reply));
-            }
-        }
-
-
 
         if (request()->expectsJson()) {
             return $reply->load('owner');

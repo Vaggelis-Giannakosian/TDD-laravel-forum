@@ -3,6 +3,7 @@
 namespace App;
 
 
+use App\Notifications\YourWereMentioned;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
@@ -47,6 +48,14 @@ class Reply extends Model
     public function wasJustPublished()
     {
         return $this->created_at->gt(now()->subMinute());
+    }
+
+    public function mentionedUsers()
+    {
+        //inspect body of the reply for username mentions
+        preg_match_all('/\@([^\s\.]+)/',$this->body,$matches);
+
+        return $matches[1];
     }
 
 }
