@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Http\Requests\CreatePostRequest;
+use App\Notifications\YourWereMentioned;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
+use App\User;
 
 
 class RepliesController extends Controller
@@ -29,6 +31,20 @@ class RepliesController extends Controller
     {
 
         $reply = $form->persist($thread);
+
+        //inspect body of the reply for username mentions
+        preg_match_all('/\@([^\s\.]+)/',$reply->body,$matches);
+        
+        $names = $matches[1];
+        foreach ($names as $name) {
+            $user = User::where('name',$name)->first();
+            if($user)
+            {
+                $user->notify(new YourWereMentioned($reply));
+            }
+        }
+
+
 
         if (request()->expectsJson()) {
             return $reply->load('owner');
