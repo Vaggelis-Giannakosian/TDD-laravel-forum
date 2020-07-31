@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Http\Requests\CreatePostRequest;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+
 
 class RepliesController extends Controller
 {
@@ -25,35 +25,14 @@ class RepliesController extends Controller
      * @param Channel $channel
      * @param Thread $thread
      */
-    public function store(Channel $channel, Thread $thread)
+    public function store(Channel $channel, Thread $thread, CreatePostRequest $form)
     {
 
-        if(Gate::denies('create',new Reply))
-        {
-            return response('You are posting too frequently. Please take a break.', 422);
-        }
-
-
-        try {
-
-            request()->validate( [
-                'body' => ['required',new SpamFree],
-            ]);
-
-
-            $reply = $thread->addReply([
-                'body' => request('body'),
-                'user_id' => auth()->id()
-            ]);
-        } catch (\Exception $e) {
-            return response('Sorry your reply could not be saved at this time.', 422);
-        }
-
+        $reply = $form->persist($thread);
 
         if (request()->expectsJson()) {
             return $reply->load('owner');
         }
-
 
         return back()->withFlash('Your reply has been left');
     }
@@ -63,8 +42,8 @@ class RepliesController extends Controller
         $this->authorize($reply);
 
         try {
-            request()->validate( [
-                'body' => ['required',new SpamFree],
+            request()->validate([
+                'body' => ['required', new SpamFree],
             ]);
             $reply->update(request(['body']));
         } catch (\Exception $e) {
