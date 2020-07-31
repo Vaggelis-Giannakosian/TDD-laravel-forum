@@ -52,4 +52,18 @@ class MentionUsersTest extends TestCase
         Notification::assertSentTo($jane,YourWereMentioned::class);
     }
 
+    function test_it_can_fetch_all_mentioned_users_starting_with_the_given_characters()
+    {
+
+        $john = create(User::class,['name'=> 'JohnDoe']);
+        $jane = create(User::class,['name'=> 'JaneDoe']);
+
+        $this->getJson(route('api.users.index',['name'=>'j']))->assertJson([
+            'JohnDoe','JaneDoe'
+        ]);
+
+        $this->getJson(route('api.users.index',['name'=>'john']))->assertJsonCount(1);
+        $this->getJson(route('api.users.index',['name'=>'ff']))->assertJsonCount(0);
+    }
+
 }

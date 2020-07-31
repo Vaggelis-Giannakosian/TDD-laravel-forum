@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
     <script>
         window.App = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -44,6 +46,8 @@
             display: none;
         }
     </style>
+
+    @yield('css')
 
 </head>
 <body>
