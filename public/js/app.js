@@ -2075,6 +2075,7 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         _this.body = '';
         flash('Your reply has been posted.');
+        console.log(data);
 
         _this.$emit('created', data);
       })["catch"](function (error) {
@@ -61075,7 +61076,7 @@ var render = function() {
                 ]
               )
             ])
-          : _c("div", { domProps: { textContent: _vm._s(_vm.body) } })
+          : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
       ]),
       _vm._v(" "),
       _vm.canUpdate

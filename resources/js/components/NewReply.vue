@@ -46,6 +46,7 @@
                     .then(({data}) => {
                         this.body = '';
                         flash('Your reply has been posted.')
+                        console.log(data)
                         this.$emit('created', data)
                     })
                     .catch(error=>{
