@@ -2071,15 +2071,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post(this.endpoint, {
         body: this.body
-      })["catch"](function (error) {
-        _this.body = '';
-        flash(error.response.data, 'danger');
       }).then(function (_ref) {
         var data = _ref.data;
         _this.body = '';
         flash('Your reply has been posted.');
 
         _this.$emit('created', data);
+      })["catch"](function (error) {
+        _this.body = '';
+        flash(error.response.data, 'danger');
       });
     }
   }
@@ -2232,6 +2232,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Favorite.vue */ "./resources/js/components/Favorite.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
 //
 //
 //
@@ -61021,52 +61025,55 @@ var render = function() {
       _c("div", { staticClass: "card-body" }, [
         _vm.editing
           ? _c("div", [
-              _c("div", { staticClass: "form-group" }, [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.body,
-                      expression: "body"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  domProps: { value: _vm.body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+              _c(
+                "form",
+                { attrs: { action: "" }, on: { submit: _vm.update } },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.body,
+                          expression: "body"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { required: "" },
+                      domProps: { value: _vm.body },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.body = $event.target.value
+                        }
                       }
-                      _vm.body = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "float-right" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary btn-sm",
-                    on: {
-                      click: function($event) {
-                        _vm.editing = false
-                      }
-                    }
-                  },
-                  [_vm._v("Cancel")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary btn-sm",
-                    on: { click: _vm.update }
-                  },
-                  [_vm._v("Update")]
-                )
-              ])
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "float-right" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary btn-sm",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.editing = false
+                          }
+                        }
+                      },
+                      [_vm._v("Cancel")]
+                    ),
+                    _vm._v(" "),
+                    _c("button", { staticClass: "btn btn-primary btn-sm" }, [
+                      _vm._v("Update")
+                    ])
+                  ])
+                ]
+              )
             ])
           : _c("div", { domProps: { textContent: _vm._s(_vm.body) } })
       ]),

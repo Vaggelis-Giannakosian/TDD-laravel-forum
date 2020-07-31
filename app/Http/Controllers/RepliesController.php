@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Http\Requests\CreatePostRequest;
-use App\Notifications\YourWereMentioned;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
-use App\User;
-
 
 class RepliesController extends Controller
 {
@@ -42,15 +39,11 @@ class RepliesController extends Controller
     {
         $this->authorize($reply);
 
-        try {
-            request()->validate([
-                'body' => ['required', new SpamFree],
-            ]);
-            $reply->update(request(['body']));
-        } catch (\Exception $e) {
-            return response('Sorry your reply could not be saved at this time.', 422);
-        }
+        request()->validate([
+            'body' => ['required', new SpamFree],
+        ]);
 
+        $reply->update(request(['body']));
     }
 
     public function destroy(Reply $reply)
