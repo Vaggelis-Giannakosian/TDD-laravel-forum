@@ -13,7 +13,9 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="level">
-                            <span class="flex">
+
+                                <img src="{{ $thread->creator->avatar()}}" alt="" width="50" height="50" class="mr-2 rounded-lg">
+                                <span class="flex">
                                   <a href="{{  $thread->creator->path() }}">
                             {{ $thread->creator->name }}
                         </a>
@@ -52,11 +54,13 @@
                             <p>
                                 This thread was published {{ $thread->created_at->diffForHumans() }} by
                                 <a href="">{{ $thread->creator->name }}</a>, and currently
-                                has <span v-text="repliesCount"></span> {{ \Str::plural('comment',$thread->replies_count) }}.
+                                has <span
+                                    v-text="repliesCount"></span> {{ \Str::plural('comment',$thread->replies_count) }}.
                             </p>
 
                             <p>
-                                <subscribe-button :active="{{ json_encode($thread->isSubscribedTo)}}"></subscribe-button>
+                                <subscribe-button
+                                    :active="{{ json_encode($thread->isSubscribedTo)}}"></subscribe-button>
                             </p>
 
                         </div>

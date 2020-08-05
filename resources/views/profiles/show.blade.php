@@ -5,11 +5,26 @@
 
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="modal-header mb-4">
+                <div class="modal-header mb-4 flex-wrap">
                     <h1>
                         {{ $profileUser->name }}
                         <small>Since {{ $profileUser->created_at->diffForHumans() }}</small>
                     </h1>
+
+                    @can('update',$profileUser)
+                        <form enctype="multipart/form-data" method="POST" action="{{ route('api.userAvatar.store',$profileUser) }}" class="flex-grow-1">
+                            @csrf
+                            <div class="form-group ">
+                               <label for="avatar" class="font-weight-bold">Avatar:</label>
+                               <input type="file" name="avatar" accept="images/*" id="avatar" class="form-control w-auto" placeholder="Avatar">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Add Avatar</button>
+                        </form>
+                    @endcan
+
+                    <img src="{{ $profileUser->avatar() }}" alt="" width="200">
+
                 </div>
 
                 @forelse($activities as $date => $activity)
