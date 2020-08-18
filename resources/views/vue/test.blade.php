@@ -127,15 +127,31 @@
             <div style="height: 100px" class="d-flex justify-content-between align-items-center">
 
                 <scroll-link class="w-25 bg-dark m-1 d-block text-white " selector="#app">Item</scroll-link>
-                <div class="w-25 bg-dark m-1  text-white" v-scroll-to="'#app'">Item</div>
+                <div class="w-25 bg-dark m-1  text-white" v-scroll-to="'#app'"><a href="#cancel-modal">Open Modal</a></div>
                 <div class="w-25 bg-dark  m-1 text-white">Item</div>
                 <div id="link-element" class="w-25 bg-dark  m-1 text-white">Item</div>
             </div>
         </div>
 
+
+
+        <modal name="cancel-modal">
+            <h1>Leaving so soon</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Ab accusamus aliquam aut consequuntur eveniet ex fuga in iure labore non officia pariatur perferendis
+                perspiciatis placeat, saepe temporibus tenetur ut, voluptates!
+            </p>
+        </modal>
+
+
     </div>
 
+
+
 </div>
+
+
 
 <script src="{{ asset('/js/app.js') }}"></script>
 </body>

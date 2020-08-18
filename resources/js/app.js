@@ -25,7 +25,10 @@ Vue.component('scroll-link',require('./components/ScrollLink').default)
 Vue.component('dropdown',require('./components/Dropdown').default)
 
 import Visible from "./components/Visible";
+import Modal from './components/Modal'
+
 Vue.component('visible',Visible)
+Vue.component('modal',Modal)
 
 
 Vue.directive('scroll-to',{
