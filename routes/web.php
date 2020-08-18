@@ -19,6 +19,11 @@ Route::get('/', function () {
 });
 
 
+Route::get('/vue-comp',function(){
+    return view('vue/test');
+});
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

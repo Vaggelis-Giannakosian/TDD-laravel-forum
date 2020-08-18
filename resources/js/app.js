@@ -21,7 +21,17 @@ Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);
 Vue.component('thread-view', require('./components/pages/Thread.vue').default);
 Vue.component('user-notifications', require('./components/UserNotifications').default);
+Vue.component('scroll-link',require('./components/ScrollLink').default)
+Vue.component('dropdown',require('./components/Dropdown').default)
 
+Vue.directive('scroll-to',{
+    bind(el,binding){
+        el.addEventListener('click',function(){
+            document.querySelector(binding.value).scrollIntoView({behavior:'smooth'})
+        })
+
+    }
+})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
