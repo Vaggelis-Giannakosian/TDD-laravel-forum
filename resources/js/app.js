@@ -24,6 +24,10 @@ Vue.component('user-notifications', require('./components/UserNotifications').de
 Vue.component('scroll-link',require('./components/ScrollLink').default)
 Vue.component('dropdown',require('./components/Dropdown').default)
 
+import Visible from "./components/Visible";
+Vue.component('visible',Visible)
+
+
 Vue.directive('scroll-to',{
     bind(el,binding){
         el.addEventListener('click',function(){

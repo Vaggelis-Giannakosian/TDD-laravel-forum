@@ -58,7 +58,8 @@
         .m-b-md {
             margin-bottom: 30px;
         }
-        .h-500{
+
+        .h-500 {
             height: 500px;
         }
     </style>
@@ -74,7 +75,7 @@
 
 
         <div class="links mb-5">
-            <scroll-link selector="#categories" >Testimonials</scroll-link>
+            <scroll-link selector="#categories">Testimonials</scroll-link>
             <a href="https://laracasts.com">Laracasts</a>
             <a href="https://laravel-news.com">News</a>
             <a href="https://blog.laravel.com">Blog</a>
@@ -86,21 +87,22 @@
 
 
         <div class="h-500"></div>
+        <visible when-hidden="#link-element">
+            <dropdown class="d-inline-block" id="button-dropdown">
 
-        <dropdown class="d-inline-block">
+                <template v-slot:trigger>
+                    <button>...</button>
+                </template>
 
-            <template v-slot:trigger>
-                <button>...</button>
-            </template>
+                <li class="" v-scroll-to="'#app'"><a @click.prevent="" class="text-info dropdown-item text-sm-left"
+                                                     v-scroll-to="'#app'" href="#">Edit</a></li>
+                <li class=""><a class="text-info dropdown-item text-sm-left " href="#">Delete</a></li>
+                <li class=""><a class="text-info  dropdown-item text-sm-left " href="#">Report</a></li>
 
-            <li class=""  v-scroll-to="'#app'"><a @click.prevent="" class="text-info dropdown-item text-sm-left" v-scroll-to="'#app'" href="#">Edit</a></li>
-            <li class=""><a class="text-info dropdown-item text-sm-left " href="#">Delete</a></li>
-            <li class=""><a class="text-info  dropdown-item text-sm-left " href="#">Report</a></li>
+            </dropdown>
+        </visible>
 
-        </dropdown>
-
-
-        <div class="m-5"> </div>
+        <div class="m-5"></div>
 
         <dropdown class="d-inline-block">
 
@@ -108,7 +110,9 @@
                 <button>Click me for more options</button>
             </template>
 
-            <li class=""  v-scroll-to="'#app'"><a @click.prevent="" class="text-info dropdown-item text-sm-left" v-scroll-to="'#app'" href="#">Edit</a></li>
+
+            <li class="" v-scroll-to="'#app'"><a @click.prevent="" class="text-info dropdown-item text-sm-left"
+                                                 v-scroll-to="'#app'" href="#">Edit</a></li>
             <li class=""><a class="text-info dropdown-item text-sm-left " href="#">Delete</a></li>
             <li class=""><a class="text-info  dropdown-item text-sm-left " href="#">Report</a></li>
 
@@ -122,10 +126,10 @@
             <h3 class="text-left">Categories</h3>
             <div style="height: 100px" class="d-flex justify-content-between align-items-center">
 
-                <scroll-link class="w-25 bg-dark m-1 d-block text-white " selector="#app" >Item</scroll-link>
+                <scroll-link class="w-25 bg-dark m-1 d-block text-white " selector="#app">Item</scroll-link>
                 <div class="w-25 bg-dark m-1  text-white" v-scroll-to="'#app'">Item</div>
                 <div class="w-25 bg-dark  m-1 text-white">Item</div>
-                <div class="w-25 bg-dark  m-1 text-white">Item</div>
+                <div id="link-element" class="w-25 bg-dark  m-1 text-white">Item</div>
             </div>
         </div>
 
