@@ -162,6 +162,38 @@
         </modal>
 
 
+        <div class="mb-5">
+            <form method="POST">
+                <confirm-button class="btn btn-outline-primary" message="Are you sure you want to delete this user?">
+                    Option 1
+                </confirm-button>
+            </form>
+
+        </div>
+
+        <div class="mb-5">
+            <form method="POST">
+                <confirm-button class="btn btn-outline-primary"
+                                message="Are you sure you want to delete this user?"
+                                cancel-button="Go Back"
+                                confirm-button="Continue On"
+                >
+                    Option 2
+                </confirm-button>
+            </form>
+
+        </div>
+
+        <div class="mb-5">
+            <form method="POST" @submit.prevent="confirm('Are you really sure about this?')">
+                <button class="btn btn-outline-primary" >
+                    Option 3
+                </button>
+            </form>
+
+        </div>
+
+        <confirm-dialog></confirm-dialog>
     </div>
 
 </div>

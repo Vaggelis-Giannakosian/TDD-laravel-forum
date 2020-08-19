@@ -17,6 +17,7 @@ require('./bootstrap');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
 import Modal from "./plugins/modal/ModalPlugin";
 Vue.use(Modal)
 
@@ -26,9 +27,12 @@ Vue.component('thread-view', require('./components/pages/Thread.vue').default);
 Vue.component('user-notifications', require('./components/UserNotifications').default);
 Vue.component('scroll-link',require('./components/ScrollLink').default)
 Vue.component('dropdown',require('./components/Dropdown').default)
+Vue.component('confirm-dialog',require('./components/ConfirmDialog').default)
+Vue.component('confirm-button',require('./components/ConfirmButton').default)
 
 import Visible from "./components/Visible";
 Vue.component('visible',Visible)
+
 
 
 
@@ -37,7 +41,6 @@ Vue.directive('scroll-to',{
         el.addEventListener('click',function(){
             document.querySelector(binding.value).scrollIntoView({behavior:'smooth'})
         })
-
     }
 })
 /**
@@ -48,4 +51,16 @@ Vue.directive('scroll-to',{
 
 const app = new Vue({
     el: '#app',
+    methods:{
+        confirm(message){
+            this.$modal.dialog(message)
+                .then(confirmed =>{
+                    if(confirmed){
+                        alert('Proceed')
+                    }else{
+                        alert('Cancel')
+                    }
+                })
+        }
+    }
 });
