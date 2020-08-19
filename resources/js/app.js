@@ -17,6 +17,9 @@ require('./bootstrap');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+import Modal from "./plugins/modal/ModalPlugin";
+Vue.use(Modal)
+
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);
 Vue.component('thread-view', require('./components/pages/Thread.vue').default);
@@ -25,10 +28,8 @@ Vue.component('scroll-link',require('./components/ScrollLink').default)
 Vue.component('dropdown',require('./components/Dropdown').default)
 
 import Visible from "./components/Visible";
-import Modal from './components/Modal'
-
 Vue.component('visible',Visible)
-Vue.component('modal',Modal)
+
 
 
 Vue.directive('scroll-to',{

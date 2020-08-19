@@ -60,7 +60,7 @@
         }
 
         .h-500 {
-            height: 500px;
+            height: 300px;
         }
     </style>
 </head>
@@ -136,21 +136,35 @@
 
 
         <modal name="cancel-modal">
-            <h1>Leaving so soon</h1>
+            <h1 class="font-bold text-xl mb-2">Leaving So Soon?</h1>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Ab accusamus aliquam aut consequuntur eveniet ex fuga in iure labore non officia pariatur perferendis
-                perspiciatis placeat, saepe temporibus tenetur ut, voluptates!
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore.
             </p>
+
+            <template v-slot:footer>
+                <button @click="$modal.hide()" href="#" class="btn btn-secondary rounded-lg">Cancel</button>
+                <a href="#confirm-cancel-modal" class="btn btn-primary rounded-lg ml-2">Confirm Cancelation</a>
+            </template>
+        </modal>
+
+        <modal name="confirm-cancel-modal">
+            <h1 class="font-bold text-xl mb-2">You're 100% sure?</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore.
+            </p>
+
+            <template v-slot:footer>
+                <a href="#cancel-modal" class="btn btn-secondary rounded-lg">Cancel</a>
+                <a href="#" class="btn btn-primary rounded-lg ml-2">Yes</a>
+            </template>
         </modal>
 
 
     </div>
 
-
-
 </div>
-
 
 
 <script src="{{ asset('/js/app.js') }}"></script>
