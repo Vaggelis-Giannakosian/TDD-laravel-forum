@@ -87,6 +87,26 @@
 
 
         <div class="h-500"></div>
+
+        <tabs class="border rounded-lg p-2">
+            <tab title="First" class="border px-2 py-4 shadow-sm">
+                <p class="text-left">
+                    Hello world
+                </p>
+            </tab>
+            <tab title="Second" class="border px-2 py-4 shadow-sm">
+                <p class="text-left">
+                    Hello world again
+                </p>
+            </tab>
+            <tab title="Third" class="border px-2 py-4 shadow-sm" active>
+                <p class="text-left">
+                    Hello world and out.
+                </p>
+            </tab>
+        </tabs>
+
+        <div class="h-500"></div>
         <visible when-hidden="#link-element">
             <dropdown class="d-inline-block" id="button-dropdown">
 

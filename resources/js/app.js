@@ -33,6 +33,8 @@ Vue.component('confirm-button',require('./components/ConfirmButton').default)
 import Visible from "./components/Visible";
 Vue.component('visible',Visible)
 
+Vue.component('tabs',require('./components/Tabs').default)
+Vue.component('tab',require('./components/Tab').default)
 
 
 Vue.directive('scroll-to',{
