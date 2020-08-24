@@ -3739,14 +3739,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _InlineSvg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InlineSvg */ "./resources/js/components/InlineSvg.js");
 //
 //
 //
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ScrollLink",
+  components: {
+    InlineSvg: _InlineSvg__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   props: ['selector'],
   methods: {
     scrollTo: function scrollTo() {
@@ -63688,7 +63694,13 @@ var render = function() {
         }
       }
     },
-    [_vm._t("default")],
+    [
+      _vm._t("default"),
+      _vm._v(" "),
+      _c("inline-svg", {
+        attrs: { name: "s1kjUOmYA60VzXYMR7mAoeueQZqAEJY4CZMFPYCL.jpeg" }
+      })
+    ],
     2
   )
 }
@@ -76068,6 +76080,25 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./public/images/badges sync recursive ^\\.\\/.*$":
+/*!********************************************!*\
+  !*** ./public/images/badges sync ^\.\/.*$ ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function webpackEmptyContext(req) {
+	var e = new Error("Cannot find module '" + req + "'");
+	e.code = 'MODULE_NOT_FOUND';
+	throw e;
+}
+webpackEmptyContext.keys = function() { return []; };
+webpackEmptyContext.resolve = webpackEmptyContext;
+module.exports = webpackEmptyContext;
+webpackEmptyContext.id = "./public/images/badges sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -76579,6 +76610,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Flash_vue_vue_type_template_id_e4161ed6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/components/InlineSvg.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/InlineSvg.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Svg = /*#__PURE__*/function () {
+  function Svg(name) {
+    _classCallCheck(this, Svg);
+
+    var div = document.createElement('div');
+    div.innerHTML = __webpack_require__("./public/images/badges sync recursive ^\\.\\/.*$")("./" + name); // be careful with dynamic webpack requires.
+
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(div);
+    this.svg = fragment.querySelector('svg');
+  }
+
+  _createClass(Svg, [{
+    key: "classes",
+    value: function classes(_classes) {
+      if (_classes) {
+        this.svg.classList.add(_classes);
+      }
+
+      return this;
+    }
+  }, {
+    key: "width",
+    value: function width(_width) {
+      if (_width) {
+        this.svg.setAttribute('width', _width);
+      }
+
+      return this;
+    }
+  }, {
+    key: "height",
+    value: function height(_height) {
+      if (_height) {
+        this.svg.setAttribute('height', _height);
+      }
+
+      return this;
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      return this.svg.outerHTML;
+    }
+  }]);
+
+  return Svg;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['name', 'classes', 'width', 'height'],
+  render: function render(h) {
+    return h('div', {
+      domProps: {
+        innerHTML: new Svg(this.name).classes(this.classes).width(this.width).height(this.height)
+      }
+    });
+  }
+});
 
 /***/ }),
 

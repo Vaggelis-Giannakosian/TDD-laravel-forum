@@ -35,7 +35,6 @@ Vue.component('visible',Visible)
 
 
 
-
 Vue.directive('scroll-to',{
     bind(el,binding){
         el.addEventListener('click',function(){

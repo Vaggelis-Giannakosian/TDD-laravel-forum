@@ -150,6 +150,7 @@
 
         <modal name="confirm-cancel-modal">
             <h1 class="font-bold text-xl mb-2">You're 100% sure?</h1>
+
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                 tempor incididunt ut labore.
