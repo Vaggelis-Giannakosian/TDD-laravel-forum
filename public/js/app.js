@@ -3141,6 +3141,8 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ImageUpload__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ImageUpload */ "./resources/js/components/ImageUpload.vue");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -3159,6 +3161,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AvatarForm",
@@ -3178,6 +3184,9 @@ __webpack_require__.r(__webpack_exports__);
       return this.authorize(function (user) {
         return user.id === _this.user.id;
       });
+    },
+    createdAt: function createdAt() {
+      return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.user.created_at).fromNow();
     }
   },
   methods: {
@@ -63366,13 +63375,16 @@ var render = function() {
     "div",
     { staticClass: "d-flex flex-wrap justify-content-between w-100" },
     [
-      _c("h1", { domProps: { textContent: _vm._s(_vm.user.name) } }, [
-        _c("small", [_vm._v("Since " + _vm._s(_vm.user.created_at))])
-      ]),
+      _c("img", {
+        staticClass: "ml-2",
+        attrs: { src: _vm.avatar, alt: "", width: "150" }
+      }),
+      _vm._v(" "),
+      _c("h2", { domProps: { textContent: _vm._s(_vm.user.name) } }),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "form-group " },
+        { staticClass: "form-group mt-3" },
         [
           _c(
             "label",
@@ -63400,12 +63412,7 @@ var render = function() {
           })
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "ml-2",
-        attrs: { src: _vm.avatar, alt: "", width: "200" }
-      })
+      )
     ]
   )
 }

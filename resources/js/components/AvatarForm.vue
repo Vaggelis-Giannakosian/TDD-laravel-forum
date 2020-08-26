@@ -1,24 +1,27 @@
 <template>
     <div class="d-flex flex-wrap justify-content-between w-100">
-        <h1 v-text="user.name">
-            <small>Since {{ user.created_at }}</small>
-        </h1>
 
-        <div class="form-group ">
+        <img class="ml-2" :src="avatar" alt="" width="150">
+
+
+        <h2 v-text="user.name">
+        </h2>
+
+        <div class="form-group mt-3">
             <label for="avatar" class="font-weight-bold">Avatar:</label>
             <image-upload id="avatar" name="avatar" accept="image/*" placeholder="Avatar" class="form-control w-auto"
                           v-show="canUpdate" @loaded="onLoad"></image-upload>
         </div>
 
 
-        <img class="ml-2" :src="avatar" alt="" width="200">
+
 
     </div>
 </template>
 
 <script>
     import ImageUpload from "./ImageUpload";
-
+    import moment from "moment";
     export default {
         name: "AvatarForm",
         components: {ImageUpload},
@@ -31,6 +34,9 @@
         computed: {
             canUpdate() {
                 return this.authorize(user => user.id === this.user.id);
+            },
+            createdAt(){
+                return moment(this.user.created_at).fromNow()
             }
         },
         methods: {
