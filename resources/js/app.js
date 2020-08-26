@@ -36,6 +36,7 @@ Vue.component('visible',Visible)
 Vue.component('tabs',require('./components/Tabs').default)
 Vue.component('tab',require('./components/Tab').default)
 
+Vue.component('avatar-form',require('./components/AvatarForm').default)
 
 Vue.directive('scroll-to',{
     bind(el,binding){

@@ -37,6 +37,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
     public function path()
     {
         return route('user.profile',$this);
@@ -79,4 +80,11 @@ class User extends Authenticatable
     {
         return asset($this->avatar_path ?: 'avatars/default.jpg');
     }
+
+    public function getAvatarPathAttribute($avatar)
+    {
+        return asset($avatar ?: 'avatars/default.jpg');
+    }
+
+
 }
