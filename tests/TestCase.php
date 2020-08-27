@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function signIn($user = null)
     {
-        $user = $user ?: create(User::class);
+        $user = $user ?: create(User::class,['email_verified_at'=>now()]);
         $this->be($user);
         return $user;
     }
