@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -21,9 +22,11 @@ class RegistrationTest extends TestCase
     public function test_a_confirmation_email_is_sent_on_email_registration()
     {
         Notification::fake();
+
         $user = create(User::class);
         event(new Registered($user));
 
+        $this->assertEquals(['mail'], (new VerifyEmail)->via($user));
         Notification::assertSentTo($user,VerifyEmail::class);
     }
 
