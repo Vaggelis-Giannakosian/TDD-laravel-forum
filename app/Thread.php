@@ -11,7 +11,7 @@ use Elasticquent\ElasticquentTrait;
 
 class Thread extends Model
 {
-    use RecordsActivity,RecordsVisits;
+    use RecordsActivity;
 
 
 //    use ElasticquentTrait;
@@ -121,7 +121,10 @@ class Thread extends Model
 
     }
 
-
+    public function visits()
+    {
+        return new Visits($this);
+    }
 
 
 }

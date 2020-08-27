@@ -134,17 +134,20 @@ class ThreadsTest extends TestCase
             'id' => 10
         ]);
 
-        $thread->resetVisits();
+        $visits = $thread->visits();
 
-        $this->assertSame(0,$thread->visits());
+        $visits->reset();
 
-        $thread->recordVisit();
+        $this->assertSame(0,$visits->count());
 
-        $this->assertEquals(1,$thread->visits());
+        $visits->record();
 
-        $thread->recordVisit();
+        $this->assertEquals(1,$visits->count());
 
-        $this->assertEquals(2,$thread->visits());
+        $visits->record();
+
+        $this->assertEquals(2,$visits->count());
+
     }
 
 }
