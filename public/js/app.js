@@ -63384,7 +63384,17 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "form-group mt-3" },
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.canUpdate,
+              expression: "canUpdate"
+            }
+          ],
+          staticClass: "form-group mt-3"
+        },
         [
           _c(
             "label",
@@ -63393,14 +63403,6 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("image-upload", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.canUpdate,
-                expression: "canUpdate"
-              }
-            ],
             staticClass: "form-control w-auto",
             attrs: {
               id: "avatar",

@@ -7,10 +7,10 @@
         <h2 v-text="user.name">
         </h2>
 
-        <div class="form-group mt-3">
+        <div class="form-group mt-3"  v-show="canUpdate" >
             <label for="avatar" class="font-weight-bold">Avatar:</label>
             <image-upload id="avatar" name="avatar" accept="image/*" placeholder="Avatar" class="form-control w-auto"
-                          v-show="canUpdate" @loaded="onLoad"></image-upload>
+                          @loaded="onLoad"></image-upload>
         </div>
 
 
