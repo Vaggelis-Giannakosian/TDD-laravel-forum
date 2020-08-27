@@ -9,6 +9,7 @@ use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use \Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Redis;
 use Tests\TestCase;
 
 class ThreadsTest extends TestCase
@@ -108,7 +109,7 @@ class ThreadsTest extends TestCase
     function test_a_thread_can_check_if_auth_user_has_read_all_replies()
     {
         $this->signIn();
-        $authUser= auth()->user();
+        $authUser = auth()->user();
 
         $this->assertTrue($this->thread->hasUpdatesFor($authUser));
 
@@ -116,7 +117,7 @@ class ThreadsTest extends TestCase
 
         $this->assertFalse($this->thread->hasUpdatesFor($authUser));
 
-        sleep( 1 );
+        sleep(1);
 
         $this->thread
             ->addReply([
@@ -125,6 +126,25 @@ class ThreadsTest extends TestCase
             ]);
 
         $this->assertTrue($this->thread->fresh()->hasUpdatesFor($authUser));
+    }
+
+    function test_a_thread_records_each_visit()
+    {
+        $thread = make(Thread::class, [
+            'id' => 10
+        ]);
+
+        $thread->resetVisits();
+
+        $this->assertSame(0,$thread->visits());
+
+        $thread->recordVisit();
+
+        $this->assertEquals(1,$thread->visits());
+
+        $thread->recordVisit();
+
+        $this->assertEquals(2,$thread->visits());
     }
 
 }

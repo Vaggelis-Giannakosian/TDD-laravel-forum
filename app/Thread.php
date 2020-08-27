@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
 
+
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity,RecordsVisits;
 
 
 //    use ElasticquentTrait;
@@ -119,6 +120,7 @@ class Thread extends Model
         return $this->updated_at > cache($key);
 
     }
+
 
 
 
