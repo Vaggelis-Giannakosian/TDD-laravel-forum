@@ -7,10 +7,9 @@ use App\Filters\ThreadFilters;
 use App\Inspections\Spam;
 use App\Rules\SpamFree;
 use App\Thread;
-use App\User;
-use Carbon\Carbon;
+use App\Trending;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
+
 
 class ThreadsController extends Controller
 {
@@ -20,7 +19,13 @@ class ThreadsController extends Controller
         $this->middleware('auth')->except(['index','show']);
     }
 
-    public function index(Channel $channel, ThreadFilters $filters)
+    /**
+     * @param Channel $channel
+     * @param ThreadFilters $filters
+     * @param Trending $trending
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     */
+    public function index(Channel $channel, ThreadFilters $filters, Trending $trending)
     {
         $threads = $this->getThreads($filters, $channel);
 
@@ -29,9 +34,10 @@ class ThreadsController extends Controller
             return $threads;
         }
 
-        $trending = array_map('json_decode',Redis::zrevrange('trending_threads',0,4));
-
-        return view('threads.index',compact('threads','trending'));
+        return view('threads.index',[
+            'threads' => $threads,
+            'trending' => $trending->get()
+        ]);
     }
 
     /**
@@ -45,7 +51,9 @@ class ThreadsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param Spam $spam
+     * @return
      */
     public function store(Request $request,Spam $spam)
     {
@@ -70,16 +78,19 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param Channel $channel
+     * @param \App\Thread $thread
+     * @param Trending $trending
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Channel $channel, Thread $thread)
+    public function show(Channel $channel, Thread $thread, Trending $trending)
     {
         //record the timestamp when user visited this page
         if(auth()->check()){
             auth()->user()->read($thread);
         }
 
-        Redis::zincrby('trending_threads',1,json_encode(['title'=>$thread->title,'path'=>$thread->path()]));
+        $trending->push($thread);
 
         return view('threads.show',compact('thread'));
     }
