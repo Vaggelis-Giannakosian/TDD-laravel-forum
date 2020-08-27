@@ -16,7 +16,8 @@ class ThreadsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index','show']);
+        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('must-be-confirmed')->only(['store']);
     }
 
     /**
@@ -29,12 +30,11 @@ class ThreadsController extends Controller
     {
         $threads = $this->getThreads($filters, $channel);
 
-        if(request()->wantsJson())
-        {
+        if (request()->wantsJson()) {
             return $threads;
         }
 
-        return view('threads.index',[
+        return view('threads.index', [
             'threads' => $threads,
             'trending' => $trending->get()
         ]);
@@ -45,7 +45,7 @@ class ThreadsController extends Controller
      */
     public function create()
     {
-       return view('threads.create');
+        return view('threads.create');
     }
 
     /**
@@ -55,11 +55,12 @@ class ThreadsController extends Controller
      * @param Spam $spam
      * @return
      */
-    public function store(Request $request,Spam $spam)
+    public function store(Request $request, Spam $spam)
     {
+
         $request->validate([
-            'title' => ['required',new SpamFree],
-            'body' => ['required',new SpamFree],
+            'title' => ['required', new SpamFree],
+            'body' => ['required', new SpamFree],
             'channel_id' => 'required|exists:channels,id',
         ]);
 
@@ -86,7 +87,7 @@ class ThreadsController extends Controller
     public function show(Channel $channel, Thread $thread, Trending $trending)
     {
         //record the timestamp when user visited this page
-        if(auth()->check()){
+        if (auth()->check()) {
             auth()->user()->read($thread);
         }
 
@@ -94,13 +95,13 @@ class ThreadsController extends Controller
 
         $trending->push($thread);
 
-        return view('threads.show',compact('thread'));
+        return view('threads.show', compact('thread'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function edit(Thread $thread)
@@ -111,8 +112,8 @@ class ThreadsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thread  $thread
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Thread $thread)
@@ -123,18 +124,17 @@ class ThreadsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thread  $thread
+     * @param \App\Thread $thread
      */
     public function destroy(Channel $channel, Thread $thread)
     {
-        $this->authorize('delete',$thread);
+        $this->authorize('delete', $thread);
 
 
         $thread->delete();
 
-        if(request()->wantsJson())
-        {
-            return response([],204);
+        if (request()->wantsJson()) {
+            return response([], 204);
         }
 
         return redirect()->route('threads.index');
