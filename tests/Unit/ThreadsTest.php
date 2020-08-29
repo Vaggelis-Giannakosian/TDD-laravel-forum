@@ -26,8 +26,8 @@ class ThreadsTest extends TestCase
 
     public function test_a_thread_has_valid_string_path()
     {
-        $thread = make(Thread::class);
-        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
+        $thread = create(Thread::class);
+        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->slug}", $thread->path());
     }
 
     public function test_a_thread_has_replies()

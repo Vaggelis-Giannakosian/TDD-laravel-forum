@@ -33,8 +33,7 @@ class CreateThreadsTest extends TestCase
 
         //given a signed in user
         $this->signIn($user = create(User::class));
-        $thread = create(Thread::class);
-
+        $thread = make(Thread::class);
 
         //when we hit the endpoint to create a new thread
         $response = $this->post('/threads',$thread->toArray());

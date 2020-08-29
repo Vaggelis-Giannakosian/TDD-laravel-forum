@@ -10,6 +10,7 @@ use App\Thread;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ThreadsController extends Controller
 {
@@ -55,6 +56,7 @@ class ThreadsController extends Controller
 
         $thread = Thread::create([
             'title' => request('title'),
+            'slug'=> Str::slug(request('title')),
             'body' => request('body'),
             'channel_id' => request('channel_id'),
             'user_id' => auth()->id(),

@@ -32,21 +32,21 @@ Route::get('/threads/create','ThreadsController@create')->name('threads.create')
 
 
 Route::get('/threads/{channel:slug}','ThreadsController@index')->name('threads.channel');
-Route::get('/threads/{channel:slug}/{thread}','ThreadsController@show')->name('threads.show');
-Route::delete('/threads/{channel:slug}/{thread}','ThreadsController@destroy')->name('threads.destroy');
+Route::get('/threads/{channel:slug}/{thread:slug}','ThreadsController@show')->name('threads.show');
+Route::delete('/threads/{channel:slug}/{thread:slug}','ThreadsController@destroy')->name('threads.destroy');
 
 //Route::resource('threads','ThreadsController');
 
 
-Route::get('/threads/{channel:slug}/{thread}/replies','RepliesController@index');
-Route::post('/threads/{channel:slug}/{thread}/replies','RepliesController@store')->name('replies.store');
+Route::get('/threads/{channel:slug}/{thread:slug}/replies','RepliesController@index');
+Route::post('/threads/{channel:slug}/{thread:slug}/replies','RepliesController@store')->name('replies.store');
 
 
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('replies.destroy');
 Route::patch('/replies/{reply}','RepliesController@update')->name('replies.update');
 
-Route::post('/threads/{channel:slug}/{thread}/subscriptions','ThreadSubscrpitionsController@store')->name('subscriptions.store');
-Route::delete('/threads/{channel:slug}/{thread}/subscriptions','ThreadSubscrpitionsController@destroy')->name('subscriptions.delete');
+Route::post('/threads/{channel:slug}/{thread:slug}/subscriptions','ThreadSubscrpitionsController@store')->name('subscriptions.store');
+Route::delete('/threads/{channel:slug}/{thread:slug}/subscriptions','ThreadSubscrpitionsController@destroy')->name('subscriptions.delete');
 
 
 

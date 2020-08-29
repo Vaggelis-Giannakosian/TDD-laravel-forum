@@ -16,7 +16,7 @@ class Thread extends Model
 //    use ElasticquentTrait;
 
 
-    protected $fillable = ['title', 'body', 'user_id', 'channel_id'];
+    protected $fillable = ['title', 'body', 'user_id', 'channel_id','slug'];
     //    protected $with = ['creator'];
     protected $with = ['channel'];
 
@@ -61,7 +61,7 @@ class Thread extends Model
 
     public function path()
     {
-        return "/threads/{$this->channel->slug}/{$this->id}";
+        return "/threads/{$this->channel->slug}/{$this->slug}";
     }
 
     public function addReply($reply)
