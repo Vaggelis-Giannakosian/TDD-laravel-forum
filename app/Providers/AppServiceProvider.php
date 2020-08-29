@@ -37,5 +37,18 @@ class AppServiceProvider extends ServiceProvider
 
 //        Validator::extend('spafree','App\Rules\SpamFree@passes');
 
+
+        // Override the email notification for verifying email
+//        VerifyEmail::toMailUsing(
+//            function ($notifiable,$verificationUrl){
+//            $verifyUrl = URL::temporarySignedRoute(
+//                'verification.verify',
+//                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+//                ['id' => $notifiable->getKey()]
+//            );
+//            return new EmailVerification($verifyUrl, $notifiable);
+//        }
+//        );
+
     }
 }

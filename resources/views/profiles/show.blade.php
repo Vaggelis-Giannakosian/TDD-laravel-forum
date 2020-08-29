@@ -5,11 +5,13 @@
 
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="modal-header mb-4">
-                    <h1>
-                        {{ $profileUser->name }}
-                        <small>Since {{ $profileUser->created_at->diffForHumans() }}</small>
-                    </h1>
+                <div class="modal-header mb-4 ">
+
+                    <avatar-form
+                        :user="{{$profileUser}}"
+                        endpoint="{{ route('api.userAvatar.store',$profileUser) }}"
+                        avatar="{{ $profileUser->avatar() }}"
+                    ></avatar-form>
                 </div>
 
                 @forelse($activities as $date => $activity)

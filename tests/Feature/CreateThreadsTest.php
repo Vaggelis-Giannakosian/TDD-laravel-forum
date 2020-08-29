@@ -27,6 +27,11 @@ class CreateThreadsTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
+    function test_auth_users_must_first_confirm_their_email_address(){
+        $this->publishThread([],create(User::class,['email_verified_at'=>null]))
+            ->assertRedirect(route('threads.index'))
+            ->assertSessionHas('flash');
+    }
 
     public function test_an_auth_user_can_create_new_forum_threads()
     {
@@ -100,9 +105,9 @@ class CreateThreadsTest extends TestCase
         $this->assertEquals(0,Activity::count());
     }
 
-    protected function publishThread(array $ovverides = [])
+    protected function publishThread(array $ovverides = [],$user = null)
     {
-        $this->signIn();
+        $this->signIn($user);
         $this->withExceptionHandling();
         $thread = make(Thread::class,$ovverides);
         return $this->post('/threads',$thread->toArray());

@@ -19,7 +19,12 @@ Route::get('/', function () {
 });
 
 
-Auth::routes();
+Route::get('/vue-comp',function(){
+    return view('vue/test');
+});
+
+
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -56,3 +61,6 @@ Route::delete('/replies/{reply}/favorites','FavoritesController@destroy')->name(
 Route::get('/profiles/{user:name}','ProfilesController@show')->name('user.profile');
 Route::get('/profiles/{user:name}/notifications','UserNotificationsController@index')->name('user-notifications.index');
 Route::delete('/profiles/{user:name}/notifications/{notification}','UserNotificationsController@destroy')->name('user-notifications.delete');
+
+Route::get('/users','Api\UsersController@index')->name('api.users.index');
+Route::post('/users/{user}/avatar','Api\UserAvatarController@store')->name('api.userAvatar.store')->middleware('auth');

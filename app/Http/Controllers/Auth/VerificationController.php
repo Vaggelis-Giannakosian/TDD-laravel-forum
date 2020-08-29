@@ -39,4 +39,15 @@ class VerificationController extends Controller
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
+
+    /**
+     * The user has been verified.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function verified($request)
+    {
+        return redirect(route('threads.index'));
+    }
 }

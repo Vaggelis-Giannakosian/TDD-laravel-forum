@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
 
+
 class Thread extends Model
 {
     use RecordsActivity;
@@ -120,6 +121,10 @@ class Thread extends Model
 
     }
 
+    public function visits()
+    {
+        return new Visits($this);
+    }
 
 
 }

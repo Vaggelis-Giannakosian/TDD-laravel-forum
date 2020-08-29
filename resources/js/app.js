@@ -17,11 +17,34 @@ require('./bootstrap');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
+import Modal from "./plugins/modal/ModalPlugin";
+Vue.use(Modal)
+
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);
 Vue.component('thread-view', require('./components/pages/Thread.vue').default);
 Vue.component('user-notifications', require('./components/UserNotifications').default);
+Vue.component('scroll-link',require('./components/ScrollLink').default)
+Vue.component('dropdown',require('./components/Dropdown').default)
+Vue.component('confirm-dialog',require('./components/ConfirmDialog').default)
+Vue.component('confirm-button',require('./components/ConfirmButton').default)
 
+import Visible from "./components/Visible";
+Vue.component('visible',Visible)
+
+Vue.component('tabs',require('./components/Tabs').default)
+Vue.component('tab',require('./components/Tab').default)
+
+Vue.component('avatar-form',require('./components/AvatarForm').default)
+
+Vue.directive('scroll-to',{
+    bind(el,binding){
+        el.addEventListener('click',function(){
+            document.querySelector(binding.value).scrollIntoView({behavior:'smooth'})
+        })
+    }
+})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -30,4 +53,16 @@ Vue.component('user-notifications', require('./components/UserNotifications').de
 
 const app = new Vue({
     el: '#app',
+    methods:{
+        confirm(message){
+            this.$modal.dialog(message)
+                .then(confirmed =>{
+                    if(confirmed){
+                        alert('Proceed')
+                    }else{
+                        alert('Cancel')
+                    }
+                })
+        }
+    }
 });

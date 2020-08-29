@@ -7,29 +7,38 @@ use App\Filters\ThreadFilters;
 use App\Inspections\Spam;
 use App\Rules\SpamFree;
 use App\Thread;
-use App\User;
-use Carbon\Carbon;
+use App\Trending;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
 
 class ThreadsController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index','show']);
+        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('must-be-confirmed')->only(['store']);
     }
 
-    public function index(Channel $channel, ThreadFilters $filters)
+    /**
+     * @param Channel $channel
+     * @param ThreadFilters $filters
+     * @param Trending $trending
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     */
+    public function index(Channel $channel, ThreadFilters $filters, Trending $trending)
     {
         $threads = $this->getThreads($filters, $channel);
 
-        if(request()->wantsJson())
-        {
+        if (request()->wantsJson()) {
             return $threads;
         }
 
-        return view('threads.index',compact('threads'));
+        return view('threads.index', [
+            'threads' => $threads,
+            'trending' => $trending->get()
+        ]);
     }
 
     /**
@@ -37,19 +46,22 @@ class ThreadsController extends Controller
      */
     public function create()
     {
-       return view('threads.create');
+        return view('threads.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param Spam $spam
+     * @return
      */
-    public function store(Request $request,Spam $spam)
+    public function store(Request $request, Spam $spam)
     {
+
         $request->validate([
-            'title' => ['required',new SpamFree],
-            'body' => ['required',new SpamFree],
+            'title' => ['required', new SpamFree],
+            'body' => ['required', new SpamFree],
             'channel_id' => 'required|exists:channels,id',
         ]);
 
@@ -69,22 +81,29 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param Channel $channel
+     * @param \App\Thread $thread
+     * @param Trending $trending
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Channel $channel, Thread $thread)
+    public function show(Channel $channel, Thread $thread, Trending $trending)
     {
         //record the timestamp when user visited this page
-        if(auth()->check()){
+        if (auth()->check()) {
             auth()->user()->read($thread);
         }
 
-        return view('threads.show',compact('thread'));
+        $thread->visits()->record();
+
+        $trending->push($thread);
+
+        return view('threads.show', compact('thread'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Thread  $thread
+     * @param \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function edit(Thread $thread)
@@ -95,8 +114,8 @@ class ThreadsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Thread  $thread
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Thread $thread)
@@ -107,18 +126,17 @@ class ThreadsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thread  $thread
+     * @param \App\Thread $thread
      */
     public function destroy(Channel $channel, Thread $thread)
     {
-        $this->authorize('delete',$thread);
+        $this->authorize('delete', $thread);
 
 
         $thread->delete();
 
-        if(request()->wantsJson())
-        {
-            return response([],204);
+        if (request()->wantsJson()) {
+            return response([], 204);
         }
 
         return redirect()->route('threads.index');
