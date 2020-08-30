@@ -7,6 +7,7 @@ use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
+use Illuminate\Support\Str;
 
 
 class Thread extends Model
@@ -124,6 +125,27 @@ class Thread extends Model
     public function visits()
     {
         return new Visits($this);
+    }
+
+    public function setSlugAttribute($value)
+    {
+        if(static::whereSlug($slug = Str::slug($value))->exists()){
+            $slug = $this->incrementSlug($slug);
+        }
+
+        $this->attributes['slug'] = $slug;
+    }
+
+    private function incrementSlug($slug)
+    {
+        $max = static::whereTitle($this->title)->latest('id')->value('slug');
+
+        if(is_numeric($max[-1]))
+        {
+            return preg_replace_callback('/(\d)$/',fn($matches)=>$matches[1] + 1,$max);
+        }
+
+        return $slug.'-2';
     }
 
 
