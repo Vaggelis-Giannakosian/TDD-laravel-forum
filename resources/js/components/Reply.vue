@@ -1,6 +1,6 @@
 <template>
-    <div :id="'reply-'+id" class="card mb-4">
-        <div class="card-header">
+    <div :id="'reply-'+id" class="card mb-4" :class="isBest ? 'shadow border-success': ''">
+        <div class="card-header ">
             <div class="level">
                 <h6 class="flex">
                     <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name">
@@ -40,9 +40,14 @@
         </div>
 
 
-        <div class="card-footer level" v-if="canUpdate">
-            <button @click="editing=true" class="btn btn-secondary btn-sm mr-2">Edit</button>
-            <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
+        <div class="card-footer level">
+           <div v-if="canUpdate">
+               <button @click="editing=true" class="btn btn-secondary btn-sm mr-2">Edit</button>
+               <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
+           </div>
+
+            
+            <button v-if="!isBest" @click="markBestReply" class="btn btn-outline-secondary btn-sm ml-auto">Best Reply</button>
         </div>
 
     </div>
@@ -59,7 +64,8 @@
             return {
                 editing: false,
                 body: this.data.body,
-                id: this.data.id
+                id: this.data.id,
+                isBest : false
             }
         },
         computed: {
@@ -94,6 +100,9 @@
                 // $(this.$el).fadeOut(300,()=>{
                 //     flash('Your reply has benn deleted!')
                 // })
+            },
+            markBestReply() {
+                this.isBest = true;
             }
         }
     }
