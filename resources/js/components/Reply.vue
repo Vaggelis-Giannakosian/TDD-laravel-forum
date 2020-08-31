@@ -47,7 +47,7 @@
            </div>
 
 
-            <button v-if="!isBest" @click="markBestReply" class="btn btn-outline-secondary btn-sm ml-auto">Best Reply</button>
+            <button v-if="!isBest" @click="markBestReply" class="btn btn-outline-secondary btn-sm ml-auto">Best Reply?</button>
         </div>
 
     </div>
@@ -65,7 +65,7 @@
                 editing: false,
                 body: this.data.body,
                 id: this.data.id,
-                isBest : false,
+                isBest : this.data.isBest,
                 reply:this.data
             }
         },
@@ -73,6 +73,11 @@
             ago() {
                 return moment(this.data.created_at).fromNow() + '...'
             },
+        },
+        created(){
+            window.events.$on('best-reply-selected',(id)=>{
+                this.isBest = (id === this.id)
+            })
         },
         methods: {
             update() {
@@ -97,7 +102,9 @@
                 // })
             },
             markBestReply() {
-                this.isBest = true;
+                axios.post(`/replies/${this.id}/best`)
+
+                window.events.$emit('best-reply-selected',this.id)
             }
         }
     }
