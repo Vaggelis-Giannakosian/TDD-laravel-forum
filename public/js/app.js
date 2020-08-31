@@ -3557,9 +3557,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    signedIn: function signedIn() {
-      return window.App.signedIn;
-    },
     endpoint: function endpoint() {
       return "".concat(location.pathname, "/replies");
     }
@@ -3813,20 +3810,11 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       body: this.data.body,
       id: this.data.id,
-      isBest: false
+      isBest: false,
+      reply: this.data
     };
   },
   computed: {
-    signedIn: function signedIn() {
-      return window.App.signedIn;
-    },
-    canUpdate: function canUpdate() {
-      var _this = this;
-
-      return this.authorize(function (user) {
-        return _this.data.user_id === user.id;
-      });
-    },
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.data.created_at).fromNow() + '...';
     }
@@ -64004,7 +63992,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-footer level" }, [
-        _vm.canUpdate
+        _vm.authorize("updateReply", _vm.reply)
           ? _c("div", [
               _c(
                 "button",
@@ -76904,6 +76892,22 @@ var app = new Vue({
 
 /***/ }),
 
+/***/ "./resources/js/authorizations.js":
+/*!****************************************!*\
+  !*** ./resources/js/authorizations.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var user = window.App.user;
+module.exports = {
+  updateReply: function updateReply(reply) {
+    return reply.user_id === user.id;
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -76914,16 +76918,28 @@ var app = new Vue({
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-window.Vue.prototype.authorize = function (handler) {
-  var user = window.App.user;
-  return user ? handler(user) : false;
+var authorizations = __webpack_require__(/*! ./authorizations */ "./resources/js/authorizations.js");
+
+window.Vue.prototype.authorize = function () {
+  if (!window.App.signedIn) return false;
+
+  for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
+    params[_key] = arguments[_key];
+  }
+
+  if (typeof params[0] === 'string') {
+    return authorizations[params[0]](params[1]);
+  }
+
+  return [params[0]](window.App.user);
 };
+
+window.Vue.prototype.signedIn = window.App.signedIn;
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
-
 
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];

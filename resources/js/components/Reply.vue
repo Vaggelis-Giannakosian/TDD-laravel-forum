@@ -41,12 +41,12 @@
 
 
         <div class="card-footer level">
-           <div v-if="canUpdate">
+           <div v-if="authorize('updateReply',reply)">
                <button @click="editing=true" class="btn btn-secondary btn-sm mr-2">Edit</button>
                <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
            </div>
 
-            
+
             <button v-if="!isBest" @click="markBestReply" class="btn btn-outline-secondary btn-sm ml-auto">Best Reply</button>
         </div>
 
@@ -65,16 +65,11 @@
                 editing: false,
                 body: this.data.body,
                 id: this.data.id,
-                isBest : false
+                isBest : false,
+                reply:this.data
             }
         },
         computed: {
-            signedIn() {
-                return window.App.signedIn
-            },
-            canUpdate() {
-                return this.authorize(user => this.data.user_id === user.id)
-            },
             ago() {
                 return moment(this.data.created_at).fromNow() + '...'
             },
