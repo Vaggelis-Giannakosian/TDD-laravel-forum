@@ -18,7 +18,7 @@ class Thread extends Model
 //    use ElasticquentTrait;
 
 
-    protected $fillable = ['title', 'body', 'user_id', 'channel_id','slug'];
+    protected $fillable = ['title', 'body', 'user_id', 'channel_id','slug','best_reply_id'];
     //    protected $with = ['creator'];
     protected $with = ['channel'];
 
@@ -140,6 +140,11 @@ class Thread extends Model
         }
 
         $this->attributes['slug'] = $slug;
+    }
+
+    public function markBestReply(Reply $reply)
+    {
+        $this->update(['best_reply_id'=>$reply->id]);
     }
 
 

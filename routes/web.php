@@ -50,10 +50,11 @@ Route::post('/threads/{channel:slug}/{thread:slug}/replies','RepliesController@s
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('replies.destroy');
 Route::patch('/replies/{reply}','RepliesController@update')->name('replies.update');
 
+
+Route::post('/replies/{reply}/best','BestRepliesController@store')->name('best-replies.store');
+
 Route::post('/threads/{channel:slug}/{thread:slug}/subscriptions','ThreadSubscrpitionsController@store')->name('subscriptions.store');
 Route::delete('/threads/{channel:slug}/{thread:slug}/subscriptions','ThreadSubscrpitionsController@destroy')->name('subscriptions.delete');
-
-
 
 Route::post('/replies/{reply}/favorites','FavoritesController@store')->name('reply.favorite');
 Route::delete('/replies/{reply}/favorites','FavoritesController@destroy')->name('reply.favorite.destroy');

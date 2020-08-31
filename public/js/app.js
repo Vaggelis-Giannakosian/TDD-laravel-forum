@@ -76539,7 +76539,6 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./-1.xlsx": "./public/avatars/-1.xlsx",
 	"./1BFVPnPHMRow2aP5hwGJ0uasNiUaZzUTqf5HviI3.png": "./public/avatars/1BFVPnPHMRow2aP5hwGJ0uasNiUaZzUTqf5HviI3.png",
 	"./7bLxVtnvhoFlufWkU0E3etHpWTJU0Eco7Zs5s94M.jpeg": "./public/avatars/7bLxVtnvhoFlufWkU0E3etHpWTJU0Eco7Zs5s94M.jpeg",
 	"./9M9Q3BvBcTURa7OPEm5oadkt3zHywfkrZLhghoA4.png": "./public/avatars/9M9Q3BvBcTURa7OPEm5oadkt3zHywfkrZLhghoA4.png",
@@ -76581,17 +76580,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./public/avatars sync recursive ^\\.\\/.*$";
-
-/***/ }),
-
-/***/ "./public/avatars/-1.xlsx":
-/*!********************************!*\
-  !*** ./public/avatars/-1.xlsx ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module parse failed: Unexpected character '\u0003' (1:2)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n(Source code omitted for this binary file)");
 
 /***/ }),
 
