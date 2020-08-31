@@ -28,6 +28,10 @@ class Thread extends Model
     {
         parent::boot();
 
+        static::created(function($thread){
+            $thread->update(['slug'=>$thread->title]);
+        });
+
         static::addGlobalScope('creator', function (Builder $builder) {
             $builder->with('creator');
         });
@@ -129,24 +133,15 @@ class Thread extends Model
 
     public function setSlugAttribute($value)
     {
-        if(static::whereSlug($slug = Str::slug($value))->exists()){
-            $slug = $this->incrementSlug($slug);
+        $slug = Str::slug($value);
+
+        if(static::whereSlug($slug)->exists()){
+            $slug = "{$slug}-".$this->id;
         }
 
         $this->attributes['slug'] = $slug;
     }
 
-    private function incrementSlug($slug)
-    {
-        $max = static::whereTitle($this->title)->latest('id')->value('slug');
-
-        if(is_numeric($max[-1]))
-        {
-            return preg_replace_callback('/(\d)$/',fn($matches)=>$matches[1] + 1,$max);
-        }
-
-        return $slug.'-2';
-    }
 
 
 }

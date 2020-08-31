@@ -72,18 +72,30 @@ class CreateThreadsTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create(Thread::class,['title'=>'Foo Title','slug'=>'foo-title']);
+        create(Thread::class,[],2);
+
+        $thread = create(Thread::class,['title'=>'Foo Title']);
 
         $this->assertEquals($thread->fresh()->slug,'foo-title');
 
-        $this->post(route('threads.store'),$thread->toArray());
+        $thread = $this->postJson(route('threads.store'),$thread->toArray())->json();
 
-        $this->assertTrue(Thread::whereSlug('foo-title-2')->exists());
-
-        $this->post(route('threads.store'),$thread->toArray());
-
-        $this->assertTrue(Thread::whereSlug('foo-title-3')->exists());
+        $this->assertTrue(Thread::whereSlug('foo-title-'.$thread['id'])->exists());
     }
+
+    function test_a_thread_with_title_that_ends_in_a_number_should_generate_the_proper_slug()
+    {
+        $this->signIn();
+
+        $thread = create(Thread::class,['title'=>'Some Title 24']);
+
+        $this->assertEquals($thread->fresh()->slug,'some-title-24');
+
+        $thread = $this->postJson(route('threads.store'),$thread->toArray())->json();
+
+        $this->assertTrue(Thread::whereSlug('some-title-24-'.$thread['id'])->exists());
+    }
+
 
     public function test_unauthorized_users_cannot_delete_threads()
     {
