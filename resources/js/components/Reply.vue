@@ -3,14 +3,14 @@
         <div class="card-header ">
             <div class="level">
                 <h6 class="flex">
-                    <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name">
+                    <a :href="'/profiles/'+reply.owner.name" v-text="reply.owner.name">
                     </a>
                     said <span v-text="ago"></span>
                 </h6>
 
                 <div v-if="signedIn">
                     <div>
-                        <favorite :reply="data"></favorite>
+                        <favorite :reply="reply"></favorite>
                     </div>
                 </div>
             </div>
@@ -40,14 +40,14 @@
         </div>
 
 
-        <div class="card-footer level">
-           <div v-if="authorize('updateReply',reply)">
+        <div class="card-footer level" v-if="authorize('owns',reply) || authorize('owns',reply.thread)">
+           <div v-if="authorize('owns',reply)">
                <button @click="editing=true" class="btn btn-secondary btn-sm mr-2">Edit</button>
                <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
            </div>
 
 
-            <button v-if="!isBest" @click="markBestReply" class="btn btn-outline-secondary btn-sm ml-auto">Best Reply?</button>
+            <button  @click="markBestReply" v-if="!isBest && authorize('owns',reply.thread)"  class="btn btn-outline-secondary btn-sm ml-auto">Best Reply?</button>
         </div>
 
     </div>
@@ -58,20 +58,20 @@
     import moment from "moment";
 
     export default {
-        props: ['data'],
+        props: ['reply'],
         components: {Favorite},
         data() {
             return {
                 editing: false,
-                body: this.data.body,
-                id: this.data.id,
-                isBest : this.data.isBest,
-                reply:this.data
+                body: this.reply.body,
+                id: this.reply.id,
+                isBest : this.reply.isBest,
+                reply:this.reply
             }
         },
         computed: {
             ago() {
-                return moment(this.data.created_at).fromNow() + '...'
+                return moment(this.reply.created_at).fromNow() + '...'
             },
         },
         created(){
@@ -81,7 +81,7 @@
         },
         methods: {
             update() {
-                axios.patch('/replies/' + this.data.id, {
+                axios.patch('/replies/' + this.id, {
                     body: this.body
                 }).then(() => {
                     flash('Updated!')
@@ -92,9 +92,9 @@
                 this.editing = false;
             },
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id);
 
-                this.$emit('deleted', this.data.id);
+                this.$emit('deleted', this.id);
 
 
                 // $(this.$el).fadeOut(300,()=>{
