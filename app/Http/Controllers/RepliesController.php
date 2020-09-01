@@ -26,6 +26,11 @@ class RepliesController extends Controller
      */
     public function store(Channel $channel, Thread $thread, CreatePostRequest $form)
     {
+        if($thread->locked)
+        {
+            return response('Thread is locked',422);
+        }
+
         $reply = $form->persist($thread);
 
         if (request()->expectsJson()) {

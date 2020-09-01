@@ -18,7 +18,7 @@ class Thread extends Model
 //    use ElasticquentTrait;
 
 
-    protected $fillable = ['title', 'body', 'user_id', 'channel_id','slug','best_reply_id'];
+    protected $fillable = ['title', 'body', 'user_id', 'channel_id','slug','best_reply_id','locked'];
     //    protected $with = ['creator'];
     protected $with = ['channel'];
 
@@ -147,6 +147,16 @@ class Thread extends Model
         $this->update(['best_reply_id'=>$reply->id]);
     }
 
+    public function lock($lock=true)
+    {
+        $this->update(['locked'=>$lock]);
+    }
+
+
+    public function unlock()
+    {
+        $this->lock(false);
+    }
 
 
 }
