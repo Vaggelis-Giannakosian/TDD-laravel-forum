@@ -38,6 +38,12 @@ Route::get('/threads/create','ThreadsController@create')->name('threads.create')
 
 Route::get('/threads/{channel:slug}','ThreadsController@index')->name('threads.channel');
 Route::get('/threads/{channel:slug}/{thread:slug}','ThreadsController@show')->name('threads.show');
+//Route::patch('/threads/{channel:slug}/{thread:slug}','ThreadsController@update')->name('threads.update');
+
+Route::post('/locked-threads/{thread:slug}','LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');
+
+
+
 Route::delete('/threads/{channel:slug}/{thread:slug}','ThreadsController@destroy')->name('threads.destroy');
 
 //Route::resource('threads','ThreadsController');
