@@ -8,10 +8,11 @@
 
     export default {
         name: "Thread",
-        props: ['initialRepliesCount'],
+        props: ['dataRepliesCount','datalLocked'],
         data(){
             return {
-                repliesCount: this.initialRepliesCount
+                repliesCount: this.dataRepliesCount,
+                locked:this.datalLocked
             }
         },
         components: {Replies,SubscribeButton},
