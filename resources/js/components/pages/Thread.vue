@@ -8,14 +8,20 @@
 
     export default {
         name: "Thread",
-        props: ['dataRepliesCount','datalLocked'],
+        props: ['thread'],
         data(){
             return {
-                repliesCount: this.dataRepliesCount,
-                locked:this.datalLocked
+                repliesCount: this.thread.replies_count,
+                locked:this.thread.locked
             }
         },
         components: {Replies,SubscribeButton},
+        methods:{
+            toggleLock(){
+                axios[this.locked ? 'delete' : 'post']('/locked-threads/'+this.thread.slug)
+                this.locked = ! this.locked
+            }
+        }
     }
 </script>
 

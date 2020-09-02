@@ -50,7 +50,20 @@ class LockThreadsTest extends TestCase
 
         $this->postJson(route('locked-threads.store',$thread))->assertStatus(200);
 
-        $this->assertTrue((bool) $thread->fresh()->locked);
+        $this->assertTrue($thread->fresh()->locked);
+    }
+
+    function test_admin_can_unlock_any_thread()
+    {
+        $this->signIn(create(User::class,['admin'=>true]));
+
+        $thread = create(Thread::class);
+
+        $thread->lock();
+
+        $this->json('delete',route('locked-threads.store',$thread))->assertStatus(200);
+
+        $this->assertFalse($thread->fresh()->locked);
     }
 
 }

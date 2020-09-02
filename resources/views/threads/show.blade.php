@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <thread-view  :data-locked="{{$thread->locked}}" :data-replies-count="{{ $thread->replies_count }}" inline-template>
+    <thread-view  :thread="{{ $thread }}" inline-template>
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
@@ -61,9 +61,8 @@
                             <p>
                                 <subscribe-button v-if="signedIn" :active="{{ json_encode($thread->isSubscribedTo)}}"></subscribe-button>
 
-                                <button v-if="authorize('isAdmin') && !locked" class="btn btn-outline-secondary" @click="locked=true">Lock</button>
+                                <button v-if="authorize('isAdmin')" class="btn btn-outline-secondary" v-text="locked ? 'Unlock' : 'Lock'" @click="toggleLock"></button>
 
-                                <button v-if="authorize('isAdmin') && locked" class="btn btn-outline-secondary" @click="locked=false">Unlock</button>
                             </p>
 
                         </div>

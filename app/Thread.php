@@ -17,6 +17,9 @@ class Thread extends Model
 
 //    use ElasticquentTrait;
 
+    protected $casts = [
+        'locked'=>'boolean'
+    ];
 
     protected $fillable = ['title', 'body', 'user_id', 'channel_id','slug','best_reply_id','locked'];
     //    protected $with = ['creator'];
