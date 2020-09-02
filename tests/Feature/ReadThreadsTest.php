@@ -24,10 +24,9 @@ class ReadThreadsTest extends TestCase
 
     public function test_a_user_can_browse_threads()
     {
-        $response = $this->get('/threads');
-
-        $response->assertStatus(200);
-        $response->assertSee($this->thread->title);
+        $response = $this->get('/threads')
+            ->assertStatus(200)
+            ->assertSee($this->thread->title);
     }
 
     public function test_a_user_can_read_a_single_thread()
