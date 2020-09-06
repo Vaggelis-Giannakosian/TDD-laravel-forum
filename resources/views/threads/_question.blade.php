@@ -6,8 +6,7 @@
 
     </div>
     <div class="card-body form-group">
-{{--        <textarea name="" id="" rows="4" v-model="form.body" class="form-control"></textarea>--}}
-        <wysiwyg v-model="form.body" :value="form.body" name="body"></wysiwyg>
+        <wysiwyg v-model="form.body"  name="body"></wysiwyg>
     </div>
 
 

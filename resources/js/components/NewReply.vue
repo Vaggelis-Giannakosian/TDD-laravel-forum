@@ -3,10 +3,7 @@
         <div v-if="signedIn">
             <div class="form-group">
                 <label class="font-weight-bold" for="body">Post your reply here!</label>
-                <textarea placeholder="Have something to say?"
-                          name="body" rows="3" id="body"
-                          class="form-control" required
-                          v-model="body"></textarea>
+                <wysiwyg v-model="body" placeholder="Have something to say?" name="body" ref="trix" :shouldClear="completed"></wysiwyg>
             </div>
 
             <div class="text-right">
@@ -34,6 +31,7 @@
         data() {
             return {
                 body: '',
+                completed:false
             }
         },
         computed: {
@@ -60,6 +58,7 @@
                 axios.post(this.endpoint, {body: this.body})
                     .then(({data}) => {
                         this.body = '';
+                        this.completed = !this.completed
                         flash('Your reply has been posted.')
                         this.$emit('created', data)
                     })
