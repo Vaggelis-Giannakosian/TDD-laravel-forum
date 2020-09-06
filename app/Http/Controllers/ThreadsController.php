@@ -124,7 +124,20 @@ class ThreadsController extends Controller
      */
     public function update($channel, Thread $thread)
     {
-        //code here
+        $this->authorize('update',$thread);
+
+        $data = request()->validate([
+            'title' => ['required',new SpamFree],
+            'body' => ['required',new SpamFree],
+            'channel_id' => 'exists:channels,id',
+        ]);
+        $thread->update($data);
+
+        if(!request()->expectsJson())
+        {
+           return redirect($thread->path())
+                ->withFlash('Your thread has been updated');
+        }
     }
 
     /**

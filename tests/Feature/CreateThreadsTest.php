@@ -110,7 +110,6 @@ class CreateThreadsTest extends TestCase
         $this->assertDatabaseHas('threads',$thread->only(['title','id','body','user_id']));
     }
 
-
     public function test_authorized_users_can_delete_threads()
     {
         $this->signIn();
