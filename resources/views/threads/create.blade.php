@@ -30,8 +30,9 @@
 
                             <div class="form-group">
                                 <label for="body">Body:</label>
-                                <textarea name="body" id="body" class="form-control" rows="8"
-                                          required placeholder="Body">{{ old('body') }}</textarea>
+                                <wysiwyg v-model="form.body" name="body"></wysiwyg>
+{{--                                <textarea name="body" id="body" class="form-control" rows="8"--}}
+{{--                                          required placeholder="Body">{{ old('body') }}</textarea>--}}
                             </div>
 
 

@@ -9,14 +9,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "ext-pthreads": "*",
+        "elasticquent/elasticquent": "dev-master",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
+        "laravel/scout": "^8.3",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.1",
-        "elasticquent/elasticquent": "dev-master",
-      "ext-pthreads": "*"
+        "laravel/ui": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

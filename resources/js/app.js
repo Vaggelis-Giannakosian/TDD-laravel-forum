@@ -33,6 +33,9 @@ Vue.component('confirm-button',require('./components/ConfirmButton').default)
 import Visible from "./components/Visible";
 Vue.component('visible',Visible)
 
+import Wysiwyg from './components/Wysiwyg'
+Vue.component('wysiwyg',Wysiwyg)
+
 Vue.component('tabs',require('./components/Tabs').default)
 Vue.component('tab',require('./components/Tab').default)
 
