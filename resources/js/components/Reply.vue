@@ -66,7 +66,6 @@
                 body: this.reply.body,
                 id: this.reply.id,
                 isBest : this.reply.isBest,
-                reply:this.reply
             }
         },
         computed: {

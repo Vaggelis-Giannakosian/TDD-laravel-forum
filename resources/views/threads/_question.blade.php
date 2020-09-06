@@ -1,19 +1,19 @@
 <div class="card" v-if="editing">
     <div class="card-header">
         <div class="level">
-            <input type="text" class="form-control" v-model="thread.title">
+            <input type="text" class="form-control" v-model="form.title">
         </div>
 
     </div>
     <div class="card-body form-group">
-        <textarea name="" id="" rows="4" v-model="thread.body" class="form-control"></textarea>
+        <textarea name="" id="" rows="4" v-model="form.body" class="form-control"></textarea>
     </div>
 
-    @can('update',$thread)
+
         <div class="card-footer level">
             <div>
-                <div @click="onEdit" class="btn-sm btn btn-primary">Update</div>
-                <div @click="editing=false" class="btn-sm btn btn-outline-secondary">Cancel</div>
+                <div @click="onUpdate" class="btn-sm btn btn-primary">Update</div>
+                <div @click="resetForm" class="btn-sm btn btn-outline-secondary">Cancel</div>
             </div>
             <div class="ml-auto">
                 @can('delete',$thread)
@@ -24,7 +24,6 @@
                 @endcan
             </div>
         </div>
-    @endcan
 </div>
 
 
@@ -39,18 +38,16 @@
                         {{ $thread->creator->name }}
                     </a>
                     posted
-                    <span v-text="thread.title">
+                    <span v-text="title">
                     </span>
 
             </span>
         </div>
 
     </div>
-    <div class="card-body" v-text="thread.body">
+    <div class="card-body" v-text="body">
     </div>
-    @can('update',$thread)
-        <div class="card-footer">
+        <div class="card-footer" v-if="authorize('owns',thread)">
             <div @click="editing=true" class="btn-sm btn btn-outline-secondary">Edit</div>
         </div>
-    @endcan
 </div>

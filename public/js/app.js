@@ -3815,8 +3815,7 @@ __webpack_require__.r(__webpack_exports__);
       editing: false,
       body: this.reply.body,
       id: this.reply.id,
-      isBest: this.reply.isBest,
-      reply: this.reply
+      isBest: this.reply.isBest
     };
   },
   computed: {
@@ -4235,12 +4234,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Thread",
   props: ['thread'],
+  computed: {
+    lockUri: function lockUri() {
+      return '/locked-threads/' + this.thread.slug;
+    },
+    updateUri: function updateUri() {
+      return "/threads/".concat(this.thread.channel.slug, "/").concat(this.thread.slug);
+    }
+  },
   data: function data() {
     return {
       repliesCount: this.thread.replies_count,
       locked: this.thread.locked,
-      editing: false
+      editing: false,
+      title: this.thread.title,
+      body: this.thread.body,
+      form: {}
     };
+  },
+  created: function created() {
+    this.resetForm();
   },
   components: {
     Replies: _Replies__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -4248,11 +4261,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggleLock: function toggleLock() {
-      axios[this.locked ? 'delete' : 'post']('/locked-threads/' + this.thread.slug);
+      axios[this.locked ? 'delete' : 'post'](this.lockUri);
       this.locked = !this.locked;
     },
-    onEdit: function onEdit() {
-      this.editing = false; // axios
+    onUpdate: function onUpdate() {
+      var _this = this;
+
+      axios.patch(this.updateUri, this.form).then(function () {
+        flash('Your thread has been updated');
+        _this.title = _this.form.title;
+        _this.body = _this.form.body;
+        _this.editing = false;
+      });
+    },
+    resetForm: function resetForm() {
+      this.form = {
+        title: this.thread.title,
+        body: this.thread.body
+      };
+      this.editing = false;
     }
   }
 });
