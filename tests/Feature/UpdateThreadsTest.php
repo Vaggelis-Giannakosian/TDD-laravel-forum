@@ -15,7 +15,7 @@ class UpdateThreadsTest extends TestCase
 {
 
     use RefreshDatabase;
-    
+
     function test_unauth_user_cannot_update_threads(){
 
         $this->withExceptionHandling();

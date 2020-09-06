@@ -12,7 +12,8 @@
         data(){
             return {
                 repliesCount: this.thread.replies_count,
-                locked:this.thread.locked
+                locked:this.thread.locked,
+                editing:false,
             }
         },
         components: {Replies,SubscribeButton},
@@ -20,6 +21,11 @@
             toggleLock(){
                 axios[this.locked ? 'delete' : 'post']('/locked-threads/'+this.thread.slug)
                 this.locked = ! this.locked
+            },
+            onEdit(){
+                this.editing = false
+
+                // axios
             }
         }
     }
