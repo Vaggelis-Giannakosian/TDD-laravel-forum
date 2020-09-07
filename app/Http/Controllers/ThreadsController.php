@@ -10,6 +10,7 @@ use App\Thread;
 use App\Trending;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use JavaScript;
 
 
 class ThreadsController extends Controller
@@ -29,6 +30,12 @@ class ThreadsController extends Controller
      */
     public function index(Channel $channel, ThreadFilters $filters, Trending $trending)
     {
+//        JavaScript::put([
+//            'foo' => 'bar',
+//            'user' => Thread::first(),
+//            'age' => 29
+//        ]);
+
         $threads = $this->getThreads($filters, $channel);
 
         if (request()->wantsJson()) {

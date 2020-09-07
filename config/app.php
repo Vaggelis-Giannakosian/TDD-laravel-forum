@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Elasticquent\ElasticquentServiceProvider::class,
-
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
         /*
          * Application Service Providers...
          */

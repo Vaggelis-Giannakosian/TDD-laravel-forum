@@ -62,6 +62,8 @@
     </main>
 
     <flash message="{{ session('flash') }}"></flash>
+
 </div>
+@include ('layouts.footer')
 </body>
 </html>

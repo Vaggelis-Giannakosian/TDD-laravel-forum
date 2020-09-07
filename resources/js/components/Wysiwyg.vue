@@ -15,7 +15,6 @@
             this.$refs.trix.addEventListener('trix-change',(e)=>{
                 this.$emit('input',e.target.innerHTML)
             })
-
             this.$watch('shouldClear',()=>{
                 this.reset()
             })
