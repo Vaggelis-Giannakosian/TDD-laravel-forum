@@ -62,4 +62,12 @@ class ReplyTest extends TestCase
         $this->assertTrue($reply->fresh()->isBest());
     }
 
+    function test_a_threads_body_is_automatically_sanitized()
+    {
+        $reply = make(Reply::class,[
+            'body'=>'<script>alert("bad")</script><p>This is okay</p>'
+        ]);
+
+        $this->assertEquals('<p>This is okay</p>',$reply->body);
+    }
 }
