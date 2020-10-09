@@ -15,9 +15,11 @@
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/utilities": "^3.1",
         "laravel/framework": "^7.0",
+        "laravel/horizon": "^4.3",
         "laravel/scout": "^8.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
+        "predis/predis": "^1.1",
         "stevebauman/purify": "^3.0"
     },
     "require-dev": {
@@ -32,7 +34,11 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+                "ext-pcntl": "7.3",
+                "ext-posix": "7.3"
+            }
     },
     "extra": {
         "laravel": {

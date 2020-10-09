@@ -2,7 +2,7 @@
 
 use App\Thread;
 use Illuminate\Support\Facades\Route;
-
+use App\Jobs\LogTest;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
+    LogTest::dispatch()->delay(now()->addSeconds(2));
     return view('welcome');
 });
 
